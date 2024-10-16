@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lit WIN Tap - Обучение</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body, button, input, textarea, select {
+            font-family: 'Exo 2', sans-serif !important;
+        }
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        body {
+            background: linear-gradient(180deg, #0088CC 0%, #00A3FF 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+        .slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .slide-content {
+            position: absolute;
+            top: 15%; /* Немного увеличили отступ сверху */
+            left: 0;
+            right: 0;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+        .slide-content h2 {
+            font-size: 48px; /* Увеличено с 32px до 48px (32 * 1.5 = 48) */
+            font-weight: 700;
+            margin: 0;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            padding: 5px 0;
+            line-height: 1.2;
+            text-align: center;
+        }
+        /* Добавим стиль для второй строки, чтобы сделать её меньше */
+        .slide-content h2:nth-child(2) {
+            font-size: 42px; /* Увеличено с 28px до 42px (28 * 1.5 = 42) */
+            margin-top: -5px; /* Приближаем вторую строку к первой */
+        }
+        .next-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%; /* Увеличено с 80% до 85% */
+            max-width: 320px; /* Увеличено с 300px до 320px */
+            height: 55px; /* Увеличено с 50px до 55px */
+            background: linear-gradient(to bottom, #7CDCF5, #5CCBF0);
+            color: white;
+            border: none;
+            border-radius: 27.5px; /* Увеличено для большего закругления (половина высоты кнопки) */
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 6px 8px rgba(0, 0, 0, 0.1); /* Усиленная тень */
+            transition: background 0.3s, transform 0.1s, box-shadow 0.3s;
+            z-index: 3;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .next-button:active {
+            transform: translateX(-50%) scale(0.98);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 3px 6px rgba(0, 0, 0, 0.1); /* Уменьшенна тень при нажатии */
+        }
+        
+
+        .next-button:hover {
+            background: linear-gradient(to bottom, #8CE1F7, #6CD0F2);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), 0 8px 10px rgba(0, 0, 0, 0.1); /* Увеличенная тень при наведении */
+        }
+        .progress-bar-container {
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            z-index: 1000;
+        }
+
+        .progress-segment {
+            width: 120px; /* Увеличено с 60px до 120px */
+            height: 4px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 2px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .progress-segment.active {
+            background-color: #000000;
+        }
+
+        .fullscreen-slide {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+        .fullscreen-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        .fullscreen-slide h2,
+        .fullscreen-slide p {
+            position: relative;
+            z-index: 1;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .tutorial-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center bottom;
+        }
+        /* .progress-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            z-index: 3;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+        .dot.active {
+            background-color: white;
+        } */
+        .split-text {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+            padding: 0 20px;
+            box-sizing: border-box;
+            top: 8%; /* Уменьшаем отступ сверху для второго слайда */
+            position: absolute;
+        }
+
+        .split-text h2 {
+            font-size: 48px; /* Увеличено с 32px до 48px */
+            font-weight: 700;
+            margin: 0;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            padding: 5px 0;
+            line-height: 1.2;
+        }
+
+        .split-text .left-align {
+            text-align: left;
+            align-self: flex-start;
+        }
+
+        .split-text .right-align {
+            text-align: right;
+            align-self: flex-end;
+        }
+        .slide-content-higher {
+            top: 8%; /* Уменьшаем отступ сверху для третьего слайда */
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar-container">
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+        <div class="progress-segment"></div>
+    </div>
+    <script>
+       const tg = window.Telegram.WebApp;
+        tg.expand(); // Расширяет приложение на весь экран
+        document.addEventListener('DOMContentLoaded', () => {
+            const slider = document.querySelector('.slider');
+            const slides = document.querySelectorAll('.slide');
+            const nextButton = document.querySelector('.next-button');
+            const progressSegments = document.querySelectorAll('.progress-segment');
+
+            let currentSlide = 0;
+            let startX;
+            let moveX;
+
+            function showSlide(index) {
+                if (index < 0) index = 0;
+                if (index >= slides.length) index = slides.length - 1;
+                
+                currentSlide = index;
+                slider.style.transform = `translateX(-${index * 100}%)`;
+                nextButton.textContent = index === slides.length - 1 ? 'NEXT!' : 'NEXT!';
+                
+                // Обновляем прогресс-бар
+                progressSegments.forEach((segment, i) => {
+                    if (i === index) {
+                        segment.classList.add('active');
+                    } else {
+                        segment.classList.remove('active');
+                    }
+                });
+            }
+
+            function nextSlide() {
+                showSlide(currentSlide + 1);
+            }
+
+            function prevSlide() {
+                showSlide(currentSlide - 1);
+            }
+
+            function handleTouchStart(e) {
+                startX = e.touches[0].clientX;
+            }
+
+            function handleTouchMove(e) {
+                if (!startX) return;
+                moveX = e.touches[0].clientX;
+                const diff = startX - moveX;
+                if (Math.abs(diff) > 50) { // Минимальное расстояние для свайпа
+                    if (diff > 0) {
+                        nextSlide();
+                    } else {
+                        prevSlide();
+                    }
+                    startX = null;
+                    moveX = null;
+                }
+            }
+
+            function handleTouchEnd() {
+                startX = null;
+                moveX = null;
+            }
+
+            nextButton.addEventListener('click', () => {
+                if (currentSlide === slides.length - 1) {
+                    localStorage.setItem('tutorialShown', 'true');
+                    window.location.href = 'main.html';
+                } else {
+                    nextSlide();
+                }
+            });
+
+            slider.addEventListener('touchstart', handleTouchStart);
+            slider.addEventListener('touchmove', handleTouchMove);
+            slider.addEventListener('touchend', handleTouchEnd);
+
+            // Инициализация прогресс-бара
+            showSlide(0);
+
+            if (localStorage.getItem('tutorialShown') === 'true') {
+                window.location.href = 'main.html';
+            }
+        });
+    </script>
+   <div class="slider-container">
+    <div class="slider">
+        <div class="slide fullscreen-slide">
+            <div class="image-container">
+                <img src="assets/start1.PNG" alt="Яйцо" class="tutorial-image">
+            </div>
+            <div class="slide-content">
+                <h2>Разбивай яйца</h2>
+            </div>
+        </div>
+        <div class="slide fullscreen-slide">
+            <img src="assets/start2.PNG" alt="Внутренность" class="fullscreen-image">
+            <div class="slide-content split-text">
+                <h2 class="left-align">Узнай что</h2>
+                <h2 class="right-align">или кто внутри!</h2>
+            </div>
+        </div>
+        <div class="slide fullscreen-slide">
+            <img src="assets/start3.PNG" alt="Дизайны" class="fullscreen-image">
+            <div class="slide-content slide-content-higher">
+                <h2>Открывай все дизайны яиц!</h2>
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <button class="next-button">NEXT!</button>
+    </div>
+    <script src="tutorial.js"></script>
+</body>
+</html>

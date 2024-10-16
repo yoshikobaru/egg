@@ -1,0 +1,201 @@
+/* Стили для страницы коллекции */
+.container {
+    padding: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: white;
+}
+
+#collection-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.category-tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+    background-color: var(--tertiary-color);
+    border-radius: 15px;
+    padding: 5px;
+}
+
+.category-tab {
+    background-color: transparent;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+}
+
+.category-tab.active {
+    background-color: var(--secondary-color);
+}
+
+.upgrade-category {
+    display: none;
+}
+
+.upgrade-category.active {
+    display: block;
+}
+.collection-item {
+    aspect-ratio: 1;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.collection-item:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.collection-item.unlocked {
+    background-color: rgba(0, 255, 0, 0.2);
+}
+
+.collection-item.unlocked:hover {
+    background-color: rgba(0, 255, 0, 0.3);
+}
+
+.collection-item img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.lock-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+#market-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.market-item {
+    background-color: var(--tertiary-color);
+    border-radius: 15px;
+    padding: 10px;
+    color: white;
+}
+
+.market-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.market-item-level {
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+.market-item-title {
+    font-weight: bold;
+}
+
+.market-item-profit {
+    font-size: 0.8em;
+}
+
+.item-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 10px 0;
+}
+
+.market-item-buy {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: var(--secondary-color);
+    border-radius: 0 0 15px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.market-item-buy:hover {
+    background-color: rgb(30, 141, 249);
+}
+
+.market-item-buy img.lit-coin {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.market-item-buy .price-value {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.market-item-timer {
+    text-align: right;
+    font-size: 0.8em;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+.lit-coin-small {
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+}
+
+/* ... существующие стили ... */
+
+.divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 20px 0;
+}
+
+.item-divider {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 10px 0;
+}
+
+/* ... остальные стили ... */
+
+:root {
+    --primary-color: rgb(18,131,255);
+    --secondary-color: rgb(7,119,240);
+    --tertiary-color: rgb(1,43,89);
+}
+
+body {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.market-item {
+    background-color: var(--tertiary-color);
+}
+
+.market-item-buy {
+    background-color: var(--secondary-color);
+}
+
+/* Обновите остальные стили, используя переменные цвета */
+
+.market-item-buy:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

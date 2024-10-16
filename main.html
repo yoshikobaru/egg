@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Lit WIN Tap</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="friends.css">
+    <link rel="stylesheet" href="task.css">
+    <link rel="stylesheet" href="collection.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tg = window.Telegram.WebApp;
+            tg.expand();
+
+            const tutorialShown = localStorage.getItem('tutorialShown');
+            if (!tutorialShown) {
+                window.location.href = 'tutorial.html';
+            }
+        });
+    </script>
+</head>
+<body>
+    <div id="main-page" class="page">
+    
+        <div class="container">
+            <div class="top-info">
+                <div class="profile">
+                    <img id="profilePic" src="assets/profile-pic.png" alt="Профиль" class="profile-pic">
+                    <div class="profile-info">
+                        <div id="profileName" class="profile-name">Пользователь</div>
+                        <div id="profileUsername" class="profile-username">@username</div>
+                    </div>
+                </div>
+                <div class="profit-info">
+                    <div class="profit-item">
+                        <span class="profit-label">Прибыль за тап</span>
+                        <span class="profit-value"><img src="assets/eggCoin.png" alt="LIT" class="lit-coin-small">+<span id="tapProfit">1</span></span>
+                    </div>
+                    <div class="profit-divider"></div>
+                    <div class="profit-item">
+                        <span class="profit-label">Прибыль в час</span>
+                        <span class="profit-value"><img src="assets/eggCoin.png" alt="LIT" class="lit-coin-small">+<span id="hourlyProfit">0</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="balance">
+                <img src="assets/eggCoin.png" alt="LIT coin" class="lit-coin">
+                <span id="balance">0</span>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress" id="progressBar">
+                        <span class="lightning">⚡️</span>
+                    </div>
+                </div>
+                <span class="can-type">Classic</span>
+                <span id="levelDisplay">Liga 1</span>
+            </div>
+            <div class="can-container">
+                <div class="can-background"></div>
+                <img src="assets/egg.png" alt="Энергетический напиток" class="can" id="can">
+                <div class="bubbles"></div>
+            </div>
+            <div class="energy">
+                <img src="assets/icon.png" alt="" class="energy-icon">
+                <span id="energy">100/100</span>
+                <!-- <button id="watchAdButton" onclick="watchAd()">🎥 Смотреть рекламу (+100 к тапу на 30 сек)</button> -->
+            </div>
+            <button id="tapToBreakButton" class="tap-to-break-button">TAP TO BREAK</button>
+        </div>
+    </div>
+    
+    <div id="collection-page" class="page" style="display: none;">
+        <div class="container">
+            <h1>Твоя коллекция</h1>
+            <div id="collection-grid"></div>
+            <hr class="divider">
+            <h2>Маркет</h2>
+            <div id="market-items">
+                <!-- Вкладки и группы улучшений будут добавлены сюда динамически -->
+            </div>
+        </div>
+    </div>
+    
+    <div id="tasks-page" class="page" style="display: none;">
+        <div class="container tasks-page">
+            <h1>Забери ежедневный бонус</h1>
+            <div class="daily-bonus">
+                <div class="bonus-grid">
+                    <button class="bonus-item unlocked" type="button" id="bonus0">
+                        <img src="assets/litcoin.png" alt="LitCoin" class="bonus-coin">
+                        <span class="bonus-value">+500</span>
+                    </button>
+                    <button class="bonus-item locked" type="button" id="bonus1">
+                        <img src="assets/litcoin.png" alt="LitCoin" class="locked-coin">
+                        <span class="bonus-value">1000</span>
+                    </button>
+                    <button class="bonus-item locked" type="button" id="bonus2">
+                        <img src="assets/litcoin.png" alt="LitCoin" class="locked-coin">
+                        <span class="bonus-value">7000</span>
+                    </button>
+                    <button class="bonus-item locked" type="button" id="bonus3">
+                        <img src="assets/litcoin.png" alt="LitCoin" class="locked-coin">
+                        <span class="bonus-value">15000</span>
+                    </button>
+                </div>
+                <div class="bonus-grid">
+                    <button class="bonus-item locked" type="button" id="bonus4">
+                        <img src="assets/litcoin.png" alt="LitCoin" class="locked-coin">
+                        <span class="bonus-value">45000</span>
+                    </button>
+                    <button class="bonus-item locked" type="button" id="bonus5">
+                        <img src="assets/litcoin.png" alt="LitCoin" class="locked-coin">
+                        <span class="bonus-value">75000</span>
+                    </button>
+                    <button class="bonus-item locked" type="button" id="bonus6">
+                        <img src="assets/litcoin.png" alt="LitCoin" class="locked-coin">
+                        <span class="bonus-value">125000</span>
+                    </button>
+                </div>
+            </div>
+            <h2>Задания</h2>
+            <div id="tasks-list">
+                <div class="task-item" id="task1">
+                    <div class="task-info">
+                        <div class="task-circle"></div>
+                        <span class="task-name">Подпишись на группу LIT⚡️WIN </span>
+                    </div>
+                    <button class="task-reward-button" id="task1Button" onclick="handleTask1Click()">
+                        <span class="reward-value">1000</span>
+                        <img src="assets/litcoin.png" alt="LitCoin" class="reward-coin">
+                    </button>
+                </div>
+                <div class="task-item">
+                    <div class="task-info">
+                        <div class="task-circle"></div>
+                        <span class="task-name">Задание 2</span>
+                    </div>
+                    <div class="task-reward">
+                        <span class="reward-value">100</span>
+                        <img src="assets/litcoin.png" alt="LitCoin" class="reward-coin">
+                    </div>
+                </div>
+                <div class="task-item">
+                    <div class="task-info">
+                        <div class="task-circle"></div>
+                        <span class="task-name">Задание 3</span>
+                    </div>
+                    <div class="task-reward">
+                        <span class="reward-value">100</span>
+                        <img src="assets/litcoin.png" alt="LitCoin" class="reward-coin">
+                    </div>
+                </div>
+                <div class="task-item">
+                    <div class="task-info">
+                        <div class="task-circle"></div>
+                        <span class="task-name">Задание 4</span>
+                    </div>
+                    <div class="task-reward">
+                        <span class="reward-value">100</span>
+                        <img src="assets/litcoin.png" alt="LitCoin" class="reward-coin">
+                    </div>
+                </div>
+            </div>
+        </div>   
+    </div>
+    
+    <div id="friends-page" class="page" style="display: none;">
+        <div class="friends-container">
+            <img src="assets/twobanka.png" alt="Две банки" class="cans-image" id="cansImage">
+            <button class="invite-button" id="inviteButton">⚡Пригласить друга!</button>
+            <button class="invite-button" id="shareLinkButton">🚀Поделиться ссылкой!</button>
+            <div class="friends-list" id="friendsList">
+                <!-- Список друзей будет добавлен динамически -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <nav>
+            <ul>
+                <li><button class="footer-btn active" data-page="main">
+                    <img src="assets/game.png" alt="Главная" class="footer-icon">
+                    <span>Main</span>
+                </button></li>
+                <li><button class="footer-btn" data-page="collection">
+                    <img src="assets/market.png" alt="Коллекция" class="footer-icon">
+                    <span>Market</span>
+                </button></li>
+                <li><button class="footer-btn" data-page="tasks">
+                    <img src="assets/tasks.png" alt="Задания" class="footer-icon">
+                    <span>Tasks</span>
+                </button></li>
+                <li><button class="footer-btn" data-page="friends">
+                    <img src="assets/friends.png" alt="Друзья" class="footer-icon">
+                    <span>Friends</span>
+                </button></li>
+            </ul>
+        </nav>
+    </footer>
+    <script src="main.js"></script>
+    <script src="friends.js"></script>
+    <script src="task.js"></script>
+    <script src="collection.js"></script>
+    <div class="background-image-bottom">
+        <img src="assets/egg_nest.png" alt="Bottom background image">
+    </div>
+    <div class="background-image">
+        <img src="assets/IMG_0594 1.png" alt="Background image">
+    </div>
+</body>
+</html>

@@ -1,0 +1,621 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap');
+
+body, button, input, textarea, select {
+    font-family: 'Exo 2', sans-serif;
+}
+h1, h2, h3 {
+    font-weight: 600;
+}
+
+.balance {
+    font-weight: 700;
+}
+
+.footer-btn {
+    font-weight: 500;
+}
+body {
+    background-color: #b5e2d7; /* Новый цвет фона, соответствующий изображению */
+    color: #333; /* Тёмно-серый цвет для основного текста */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    padding-top: 20px;
+    overflow-x: hidden;
+    width: 100%;
+}
+.container {
+    position: relative;
+    text-align: center;
+    padding-bottom: 60px;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box; /* Учитываем padding в общей ширине */
+    padding-left: 15px; /* Добавляем отступы слева и справа */
+    padding-right: 15px;
+}
+.container > * {
+    max-width: 100%;
+}
+.footer-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-bottom: 4px;
+}
+/*
+#watchAdButton {
+    background-color: #000000;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+*/
+.footer-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5px;
+    width: 100%;
+    background: none;
+    border: none;
+    color: #4A2511; /* Осталяем тёмно-коричневый для текста в футере */
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.footer-btn:hover, .footer-btn.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+}
+
+.footer-btn span {
+    margin-top: 4px;
+}
+
+/* Специфичные стили для иконки коллекции */
+.footer-btn[data-page="collection"] .footer-icon {
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.balance {
+    font-size: 36px;
+    font-weight: bold;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.lit-coin {
+    width: 40px;  /* Уменьшено с 50px */
+    height: 40px; /* Уменьшено с 50px */
+    margin-right: 10px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.progress-container {
+    background: radial-gradient(
+        ellipse at center,
+        var(--secondary-color) 0%,
+        var(--secondary-color) 25%,
+        var(--secondary-color) 50%,
+        var(--secondary-color) 75%,
+        var(--secondary-color) 100%
+    );
+    border-radius: 15px;
+    padding: 15px;
+    margin: 0 15px;
+    position: relative;
+}
+.progress-bar {
+    width: 100%;
+    height: 10px; /* Уменьшено с 20px */
+    background-color: var(--tertiary-color);
+    border-radius: 5px; /* Уменьшено с 10px для соответствия новой высоте */
+    overflow: visible; /* Изменено с hidden на visible */
+    margin-bottom: 20px;
+    position: relative;
+}
+.progress {
+    width: 0;
+    height: 100%;
+    background-color: #2ecc71;
+    border-radius: 5px; /* Уменьшено с 10px для соответствия новой высоте */
+    transition: width 0.3s ease-in-out;
+    position: relative;
+}
+.lightning {
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px; /* Увеличено до 24px для большего размеа */
+    z-index: 1; /* Добавлено, чтобы иконка была поверх других элементов */
+}
+.can-type {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+.can-container {
+    position: relative;
+    width: 100%; 
+    height: 400px;
+    display: flex;  
+    justify-content: center; 
+    align-items: center; 
+    overflow: visible;
+}
+.can-background {
+    position: absolute;
+    width: 300px;  
+    height: 300px;  
+    background: radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(52,152,219,0) 70%);
+    border-radius: 50%;
+    transform: translateY(-30px);
+}
+.can {
+    width: 280px;  /* Установите желаемую ширину */
+    height: auto;  /* Это позволит сохранить пропорции изображения */
+    position: relative;
+    z-index: 1;
+    transition: transform 0.1s;
+    object-fit: contain;  /* Это гарантирует, что изображение поместится в контейнер без обрезки */
+    transform: translateY(-30px); 
+
+}
+.can.shake {
+    animation: shake 0.2s ease-in-out;
+}
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-5deg); }
+    75% { transform: rotate(5deg); }
+}
+.bubbles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bubble {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    animation: float 1s ease-in-out;
+}
+@keyframes float {
+    0% { transform: translate(0, 0) scale(0); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 0; }
+}
+.energy {
+    position: fixed;
+    left: 50%;
+    bottom: 90px; /* Регулируйте это значение, чтобы разместить индикатор выше футера */
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    z-index: 10;
+    width: 100%;
+    max-width: 200px; /* Ограничиваем максимальную ширину */
+}
+
+.energy-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+    object-fit: contain;
+}
+
+#energy {
+    color: #4A2511; /* Меняем цвет текста на темно-коричневый для лучшей видимости */
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.5); /* Добавляем светлую тень для лучшей читаемости */
+    font-weight: bold;
+}
+
+.battery-icon {
+    margin-right: 5px;
+    font-size: 20px;
+}
+.shake-profit {
+    position: absolute;
+    font-size: 14px;
+    color: #FFD700; /* Золотой цвет для отличия от обычного тапа */
+    font-weight: bold;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+    z-index: 1000;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 1px 1px 2px rgba(0,0,0,0.5);
+    animation: fadeUpAndOut 0.5s ease-out forwards;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent; /* Убираем фоновый цвет */
+    z-index: 1000;
+    padding: 10px 0;
+    box-shadow: none; /* Убираем тень */
+}
+
+.footer nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-btn {
+    background: none;
+    border: none;
+    color: #4A2511; /* Тёмно-коричневый цвет текста */
+    font-size: 12px; /* Уменьшаем размер шрифта */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-icon {
+    width: 40px; /* Увеличиваем азмер иконок еще больше */
+    height: 40px; /* Увеличиваем размер иконок еще больше */
+    object-fit: contain;
+    margin-bottom: 4px;
+}
+
+.top-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; /* Изменено с center на stretch */
+    margin-bottom: 20px;
+    background-color: transparent; /* Убираем фоновый цвет */
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    background-color: var(--secondary-color);
+    border-radius: 15px;
+    padding: 10px;
+    flex: 2; /* Изменено с 1 на 2 */
+    margin-right: 10px; /* Добавлен отступ справа */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.profile-info {
+    text-align: left;
+}
+
+.profile-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.profile-username {
+    font-size: 10px; 
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.profit-info {
+    display: flex;
+    align-items: center;
+    background-color: var(--secondary-color);
+    border-radius: 15px;
+    padding: 10px;
+    flex: 3; /* Изменено с 1 на 3 */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.profit-item {
+    text-align: center;
+    color: white;
+}
+
+.profit-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    display: block;
+}
+
+.profit-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+.lit-coin-small {
+    width: 16px;
+    height: 16px;
+    margin-right: 3px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profit-divider {
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 0 10px;
+    align-self: stretch;
+}
+
+.balance {
+    font-size: 48px;
+    font-weight: bold;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lit-coin {
+    width: 40px;  /* Уменьшено с 50px */
+    height: 40px; /* Меньшено с 50px */
+    margin-right: 10px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Остальные стили остаются без измененй */
+/* Остальные стили остаются без измененй */
+
+.tap-profit {
+    position: absolute;
+    font-size: 14px;
+    color: #1aabfa; /* Более яркий голубой цвет */
+    font-weight: bold;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+    z-index: 1000;
+    text-shadow: 0 0 10px rgba(30, 146, 255, 0.8), 1px 1px 2px rgba(0,0,0,0.5);
+    animation: fadeUpAndOut 0.5s ease-out forwards;
+}
+
+@keyframes fadeUpAndOut {
+    0% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    20% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+.mango {
+    position: absolute;
+    background-image: url('assets/mango.png'); /* Убедитесь, что путь правильный */
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    animation: float 1s ease-out;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.fruit {
+    position: absolute;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    animation: float 1s ease-out;
+    pointer-events: none;
+}
+
+.mango {
+    background-image: url('assets/mango.png'); /* Убедитесь, что путь правильный */
+}
+
+.coconut {
+    background-image: url('assets/coconut.png');
+}
+
+.blueberry {
+    background-image: url('assets/blueberry.png'); /* Убедитесь, что у вас есь это изображение */
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Добавьте эти стили в конец файла main.css */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent; /* Убираем фоновый цвет */
+    z-index: 1000;
+    padding: 10px 0;
+    box-shadow: none; /* Убираем тень */
+}
+
+.footer nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-btn {
+    background: none;
+    border: none;
+    color: #4A2511; /* Тёмно-коричневый цвет текста */
+    font-size: 12px; /* Уменьшаем размер шрифта */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.footer-icon {
+    width: 40px; /* Увеличиваем размер иконок еще больше */
+    height: 40px; /* Увеличиваем размер иконок еще больше */
+    object-fit: contain;
+    margin-bottom: 4px;
+}
+
+/* Обеспечиваем, чтобы контент не перекрывался футером */
+.page {
+    padding-bottom: 70px; /* Увеличьте это значение, если футер всё ещё перекрывает контент */
+}
+
+/* Удаляем стиль для активной кнопки */
+/* .footer-btn.active {
+    color: #2A90FF;
+} */
+
+.background-image {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: -1; /* Помещаем изображение под контентом */
+}
+
+.background-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+body {
+    background-color: #b5e2d7;
+    /* Остальные стили для body остаются без изменений */
+}
+
+.container {
+    position: relative;
+    z-index: 1; /* Убедимся, что контент находится над фоновым изображением */
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    z-index: 2; /* Убедимся, что футер находится над фоновым изображением */
+}
+
+.background-image-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: -2; /* Помещаем изображение под другим фоновым изображением */
+}
+
+.background-image-bottom img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.background-image {
+    z-index: -1; /* Убедимся, что это изображение находится над нижним фоновым изображением */
+}
+
+body {
+    background-color: transparent; /* Убираем фоновый цвет body */
+}
+
+.tap-to-break-button {
+    position: fixed;
+    left: 50%;
+    bottom: 180px;
+    transform: translateX(-50%);
+    background-color: #60C8C1;
+    color: #ffffff;
+    border: none;
+    border-radius: 42px;
+    padding: 14px 28px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.1),
+        0 -2px 4px rgba(255, 255, 255, 0.5) inset,
+        0 2px 4px rgba(0, 0, 0, 0.1) inset;
+    transition: all 0.3s ease;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+}
+
+.tap-to-break-button:hover {
+    background-color: #70D8D1;
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 
+        0 6px 8px rgba(0, 0, 0, 0.15),
+        0 -3px 6px rgba(255, 255, 255, 0.5) inset,
+        0 3px 6px rgba(0, 0, 0, 0.1) inset;
+}
+
+.tap-to-break-button:active {
+    background-color: #50B8B1;
+    transform: translateX(-50%) scale(0.95);
+    box-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        0 -1px 3px rgba(255, 255, 255, 0.5) inset,
+        0 1px 3px rgba(0, 0, 0, 0.1) inset;
+}
