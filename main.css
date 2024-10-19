@@ -15,8 +15,8 @@ h1, h2, h3 {
     font-weight: 500;
 }
 body {
-    background-color: #b5e2d7; /* Новый цвет фона, соответствующий изображению */
-    color: #333; /* Тёмно-серый цвет для основного текста */
+    background: linear-gradient(to bottom, #90BEBB 0%, #C3DEC9 50%, #FFFFFF 100%);
+    color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -109,14 +109,7 @@ body {
     border-radius: 50%;
 }
 .progress-container {
-    background: radial-gradient(
-        ellipse at center,
-        var(--secondary-color) 0%,
-        var(--secondary-color) 25%,
-        var(--secondary-color) 50%,
-        var(--secondary-color) 75%,
-        var(--secondary-color) 100%
-    );
+    background: none; /* Убираем радиальный градиент */
     border-radius: 15px;
     padding: 15px;
     margin: 0 15px;
@@ -124,18 +117,18 @@ body {
 }
 .progress-bar {
     width: 100%;
-    height: 10px; /* Уменьшено с 20px */
-    background-color: var(--tertiary-color);
-    border-radius: 5px; /* Уменьшено с 10px для соответствия новой высоте */
-    overflow: visible; /* Изменено с hidden на visible */
+    height: 12px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 6px;
+    overflow: visible;
     margin-bottom: 20px;
     position: relative;
 }
 .progress {
     width: 0;
     height: 100%;
-    background-color: #2ecc71;
-    border-radius: 5px; /* Уменьшено с 10px для соответствия новой высоте */
+    background: linear-gradient(to right, #DD00FF, #FF0044, #FF8000, #D9FF00);
+    border-radius: 6px;
     transition: width 0.3s ease-in-out;
     position: relative;
 }
@@ -144,23 +137,23 @@ body {
     right: -15px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 24px; /* Увеличено до 24px для большего размеа */
-    z-index: 1; /* Добавлено, чтобы иконка была поверх других элементов */
+    font-size: 24px;
+    z-index: 1;
 }
 .can-type {
     position: absolute;
     right: 15px;
-    bottom: 15px;
+    bottom: -20px; /* Перемещаем текст под бар энергии */
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    color: #4A2511; /* Меняем цвет на темно-коричневый для лучшей видимости */
 }
 .can-container {
     position: relative;
     width: 100%; 
-    height: 400px;
+    height: 450px;
     display: flex;  
     justify-content: center; 
-    align-items: center; 
+    align-items: flex-end; 
     overflow: visible;
 }
 .can-background {
@@ -172,13 +165,13 @@ body {
     transform: translateY(-30px);
 }
 .can {
-    width: 280px;  /* Установите желаемую ширину */
+    width: 320px;  /* Установите желаемую ширину */
     height: auto;  /* Это позволит сохранить пропорции изображения */
     position: relative;
     z-index: 1;
     transition: transform 0.1s;
     object-fit: contain;  /* Это гарантирует, что изображение поместится в контейнер без обрезки */
-    transform: translateY(-30px); 
+    transform: translateY(135px);
 
 }
 .can.shake {
@@ -302,12 +295,12 @@ body {
 .profile {
     display: flex;
     align-items: center;
-    background-color: var(--secondary-color);
+    background-color: transparent; /* Убираем ф��новый цвет */
     border-radius: 15px;
     padding: 10px;
     flex: 2; /* Изменено с 1 на 2 */
     margin-right: 10px; /* Добавлен отступ справа */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    box-shadow: none; /* Убираем тень */
 }
 
 .profile-pic {
@@ -322,43 +315,73 @@ body {
 }
 
 .profile-name {
-    font-weight: bold;
-    font-size: 14px;
+    font-weight: regular;
+    font-size: 16px;
+    color: #ffffff; /* Меняем цвет текста на темно-коричневый для лучшей видимости */
 }
 
 .profile-username {
     font-size: 10px; 
-    color: rgba(255, 255, 255, 0.8);
+    color: #ffffff; /* Меняем цвет текста на темно-коричневый */
 }
 
 .profit-info {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    background-color: var(--secondary-color);
-    border-radius: 15px;
-    padding: 10px;
-    flex: 3; /* Изменено с 1 на 3 */
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    background-color: transparent;
+    
+    flex: 3;
 }
 
 .profit-item {
     text-align: center;
-    color: white;
+    color: #4A2511;
+    background-color: #FFFFFF; /* Белый фон */
+    border-radius: 10px;
+    
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    margin: 0 1px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 100px;
+}
+.profit-value img {
+    width: 25px; /* Увеличиваем размер картинки */
+    height: 25px; /* Увеличиваем размер картинки */
+     /* Добавляем отступ справа от картинки */
 }
 
 .profit-label {
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 15px;
+    font-weight: bold;
+    color: #4A2511;
     display: block;
+    margin-bottom: 4px;
 }
+.nest-image {
+    position: absolute;
+    bottom: -10px; /* Изменено с 200 на 150px */
+    left: 49%;
+    transform: translateX(-50%);
+    max-width: 100%;
+    z-index: -3;
+}
+
 
 .profit-value {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
-    color: white;
+    color: #4A2511;
+}
+
+.profit-divider {
+    display: none; /* Убираем разделитель */
 }
 
 .lit-coin-small {

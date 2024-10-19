@@ -4,9 +4,9 @@
 
     
     const canImages = [
-        'assets/bankaClassic.png',
-        'assets/bankamango.png',
-        'assets/bankablueberry.png',
+        'assets/egg.png',
+        'assets/lock.svg',
+        'assets/lock.svg',
         'assets/lock.svg',
         'assets/lock.svg',
         'assets/lock.svg',
