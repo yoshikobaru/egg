@@ -165,13 +165,13 @@ body {
     transform: translateY(-30px);
 }
 .can {
-    width: 320px;  /* Установите желаемую ширину */
+    width: 100%;  /* Установите желаемую ширину */
     height: auto;  /* Это позволит сохранить пропорции изображения */
     position: relative;
     z-index: 1;
     transition: transform 0.1s;
     object-fit: contain;  /* Это гарантирует, что изображение поместится в контейнер без обрезки */
-    transform: translateY(135px);
+    transform: translateY(90px);
 
 }
 .can.shake {
