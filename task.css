@@ -6,7 +6,7 @@
 
 .tasks-page {
     padding: 20px;
-    background-color: var(--primary-color);
+    background: linear-gradient(180deg, #90BEBB 0%, #C3DEC9 50%, #FFFFFF 100%);
     color: white;
     height: 100vh;
     box-sizing: border-box;
@@ -93,13 +93,13 @@
 }
 
 .tasks-page .task-item {
-    background-color: var(--secondary-color);
-    border-radius: 10px;
+    background-color: #3F7A88;
+    border-radius: 35px;
     padding: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--tertiary-color);
+    background-color: #3F7A88;
 }
 
 .tasks-page .task-info {

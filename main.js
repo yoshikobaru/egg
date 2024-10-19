@@ -238,7 +238,7 @@ window.updateTapProfit = function(newTapProfit) {
     
     const tapProfitProfileElement = document.querySelector('.profit-item:first-child .profit-value');
     if (tapProfitProfileElement) {
-        tapProfitProfileElement.innerHTML = `<img src="assets/litcoin.png" alt="LIT" class="lit-coin-small">+<span>${tapProfit.toLocaleString()}</span>`;
+        tapProfitProfileElement.innerHTML = `<img src="assets/eggCoin.png" alt="LIT" class="lit-coin-small">+<span>${tapProfit.toLocaleString()}</span>`;
     }
 
     const tapProfitElement = document.getElementById('tapProfit');

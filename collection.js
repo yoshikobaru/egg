@@ -47,12 +47,12 @@
             <span class="market-item-level">Ур. <span id="drinkLitLevel">1</span></span>
             <span class="market-item-title">Выпить LITWIN</span>
             <span class="market-item-profit">
-                Прибыль за тап <img src="assets/litcoin.png" alt="LIT" class="lit-coin-small">+<span id="drinkLitProfit">1</span>
+                Прибыль за тап <img src="assets/eggCoin.png" alt="LIT" class="lit-coin-small">+<span id="drinkLitProfit">1</span>
             </span>
         </div>
         <hr class="item-divider">
         <div class="market-item-buy" id="drinkLitButton">
-            <img src="assets/litcoin.png" alt="LIT" class="lit-coin">
+            <img src="assets/eggCoin.png" alt="LIT" class="lit-coin">
             <span class="price-value" id="drinkLitPrice">100</span>
         </div>
     `;
@@ -150,12 +150,12 @@
             <span class="market-item-level">Ур. <span id="farmLevel">1</span></span>
             <span class="market-item-title">Войти в кондиции</span>
             <span class="market-item-profit">
-                Прибыль в час <img src="assets/litcoin.png" alt="LIT" class="lit-coin-small">+<span id="farmProfit">100</span>
+                Прибыль в час <img src="assets/eggCoin.png" alt="LIT" class="lit-coin-small">+<span id="farmProfit">100</span>
             </span>
         </div>
         <hr class="item-divider">
         <div class="market-item-buy" id="farmButton">
-            <img src="assets/litcoin.png" alt="LIT" class="lit-coin">
+            <img src="assets/eggCoin.png" alt="LIT" class="lit-coin">
             <span class="price-value" id="farmPrice">100</span>
         </div>
     `;
@@ -261,12 +261,12 @@ energyElement.innerHTML = `
         <span class="market-item-level">Ур. <span id="energyLevel">1</span></span>
         <span class="market-item-title">Заряд энергии</span>
         <span class="market-item-profit">
-            Добавить энергии <img src="assets/litcoin.png" alt="LIT" class="lit-coin-small">+<span id="energyProfit">100</span>
+            Добавить энергии <img src="assets/eggCoin.png" alt="LIT" class="lit-coin-small">+<span id="energyProfit">100</span>
         </span>
     </div>
     <hr class="item-divider">
     <div class="market-item-buy" id="energyButton">
-        <img src="assets/litcoin.png" alt="LIT" class="lit-coin">
+        <img src="assets/eggCoin.png" alt="LIT" class="lit-coin">
         <span class="price-value" id="energyPrice">100</span>
     </div>
 `;
@@ -360,14 +360,14 @@ updateEnergyButton();
                 <span class="market-item-title">${item.title}</span>
                 <span class="market-item-profit">
                     ${item.profitType === 'energy' 
-                        ? `Добавить энергии <img src="assets/litcoin.png" alt="LIT" class="lit-coin-small">+${item.profit}`
-                        : `Прибыль ${item.profitType === 'tap' ? 'за тап' : 'в час'} <img src="assets/litcoin.png" alt="LIT" class="lit-coin-small">+${item.profit}`
+                        ? `Добавить энергии <img src="assets/eggCoin.png" alt="LIT" class="lit-coin-small">+${item.profit}`
+                        : `Прибыль ${item.profitType === 'tap' ? 'за тап' : 'в час'} <img src="assets/eggCoin.png" alt="LIT" class="lit-coin-small">+${item.profit}`
                     }
                 </span>
             </div>
             <hr class="item-divider">
             <div class="market-item-buy" data-id="${item.id}">
-                <img src="assets/litcoin.png" alt="LIT" class="lit-coin">
+                <img src="assets/eggCoin.png" alt="LIT" class="lit-coin">
                 <span class="price-value">${item.price}</span>
             </div>
             ${item.timer ? `<div class="market-item-timer">${item.timer}</div>` : ''}

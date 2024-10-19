@@ -18,7 +18,7 @@ h1, h2 {
     display: flex;
     justify-content: space-around;
     margin-bottom: 15px;
-    background-color: var(--tertiary-color);
+    background-color: #3F7A88;
     border-radius: 15px;
     padding: 5px;
 }
@@ -35,7 +35,7 @@ h1, h2 {
 }
 
 .category-tab.active {
-    background-color: var(--secondary-color);
+    background-color: #60C8C1;
 }
 
 .upgrade-category {
@@ -130,9 +130,7 @@ h1, h2 {
     transition: background-color 0.3s;
 }
 
-.market-item-buy:hover {
-    background-color: rgb(30, 141, 249);
-}
+
 
 .market-item-buy img.lit-coin {
     width: 20px;
@@ -177,20 +175,21 @@ h1, h2 {
 :root {
     --primary-color: rgb(18,131,255);
     --secondary-color: rgb(7,119,240);
-    --tertiary-color: rgb(1,43,89);
+    --tertiary-color: #3F7A88;
+    --market-item-color: #3E7A88;
 }
 
 body {
-    background-color: var(--primary-color);
+    background-color: var(--tertiary-color);
     color: white;
 }
 
 .market-item {
-    background-color: var(--tertiary-color);
+    background-color: var(--market-item-color);
 }
 
 .market-item-buy {
-    background-color: var(--secondary-color);
+    background-color: transparent;
 }
 
 /* Обновите остальные стили, используя переменные цвета */
