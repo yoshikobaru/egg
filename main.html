@@ -182,9 +182,22 @@
     
     <div id="friends-page" class="page" style="display: none;">
         <div class="friends-container">
-            <img src="assets/twobanka.png" alt="Две банки" class="cans-image" id="cansImage">
-            <button class="invite-button" id="inviteButton">Пригласить друга!</button>
-            <button class="invite-button" id="shareLinkButton">🚀Поделиться ссылкой!</button>
+            <div class="friends-invite-block">
+                <img src="assets/addFriend.png" alt="Friends" class="friends-invite-icon">
+                <div class="friends-invite-text">
+                    <h2 class="friends-invite-title">Приглашай друга</h2>
+                    <p class="friends-invite-description">Получай бонус для себя и для друга</p>
+                </div>
+                <div class="friends-invite-reward">
+                    <span class="friends-invite-reward-amount">10к</span>
+                    <img src="assets/eggCoin.png" alt="Coin" class="friends-invite-reward-icon">
+                </div>
+            </div>
+            <!-- <img src="assets/addFriend.png" alt="Две банки" class="cans-image" id="cansImage"> -->
+             <div class="invite-buttons-container">
+                <button class="invite-button" id="inviteButton">Пригласить друга!</button>
+                <button class="invite-button" id="shareLinkButton">🚀Поделиться ссылкой!</button>
+             </div>
             <div class="friends-list" id="friendsList">
                 <!-- Список друзей будет добавлен динамически -->
             </div>

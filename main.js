@@ -825,7 +825,7 @@ function updateFriendsCanImage(index) {
         } else if (canSrc === 'assets/bankablueberry.png') {
             cansImage.src = 'assets/twobankablueberry.png';
         } else {
-            cansImage.src = 'assets/twobanka.png';
+            cansImage.src = 'assets/addFriend.png';
         }
         console.log('Новое изображение установлено:', cansImage.src);
     } else {
