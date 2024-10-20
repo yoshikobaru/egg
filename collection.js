@@ -464,12 +464,15 @@ updateEnergyButton();
     
     function updateUnlockedCans() {
         const currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
+        const unlockedCans = parseInt(localStorage.getItem('unlockedCans')) || 1;
         const items = collectionGrid.querySelectorAll('.collection-item');
         items.forEach((item, index) => {
-            if (index < currentLevel) {
+            if (index < unlockedCans) {
                 item.classList.add('unlocked');
+                item.querySelector('img').src = canImages[index] || 'assets/egg.png';
             } else {
                 item.classList.remove('unlocked');
+                item.querySelector('img').src = 'assets/lock.svg';
             }
         });
     }
