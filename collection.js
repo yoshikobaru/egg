@@ -4,7 +4,7 @@
 
     
     const canImages = [
-        'assets/egg1.png',
+        'assets/egg.png',
         'assets/lock.svg',
         'assets/lock.svg',
         'assets/lock.svg',

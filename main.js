@@ -24,6 +24,13 @@ const canImages = [
     'assets/banka7.png',
     'assets/banka8.png'
 ];
+const eggImages = [
+    'assets/egg.png',
+    'assets/polomka1.png',
+    'assets/polomka2.png',
+    'assets/polomka3.png',
+    'assets/polomka4.png'
+];
 
 const canThemes = {
     'assets/bankaClassic.png': {
@@ -387,6 +394,14 @@ function updateProgress() {
     }
 
     progressBar.style.width = `${progressPercentage}%`;
+    
+    const eggIndex = Math.floor(progressPercentage / 20);
+    const eggImage = document.getElementById('can');
+    if (eggImage) {
+        const newEggSrc = eggImages[Math.min(eggIndex, eggImages.length - 1)];
+        console.log(`Прогресс: ${progressPercentage.toFixed(2)}%, индекс яйца: ${eggIndex}, новое изображение: ${newEggSrc}`);
+        eggImage.src = newEggSrc;
+    }
     
     const levelDisplay = document.getElementById('levelDisplay');
     if (levelDisplay) {
