@@ -847,7 +847,7 @@ function updateFriendsCanImage(index) {
         console.error('Элемент cansImage не найден');
     }
 }
-
+//
 function updateCanImage(index) {
     console.log('Вызвана функция updateCanImage с индексом:', index);
     const canElement = document.getElementById('can');
