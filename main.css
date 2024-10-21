@@ -37,11 +37,12 @@ body {
     box-sizing: border-box; /* Учитываем padding в общей ширине */
     padding-left: 15px; /* Добавляем отступы слева и справа */
     padding-right: 15px;
-    height: 100vh;
+    
     display: flex; 
     flex-direction: column; 
     justify-content: space-between; 
     padding-bottom: 80px; 
+    overflow-y: auto;
 }
 
 .container > * {
