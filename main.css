@@ -180,7 +180,7 @@ body {
     z-index: 1;
     transition: transform 0.1s;
     object-fit: contain;  /* Это гарантирует, что изображение поместится в контейнер без обрезки */
-    transform: translateY(-200px); 
+    transform: translateY(-250px); 
 
 }
 .can.shake {
