@@ -196,9 +196,11 @@ function initializeMainPage() {
     canElement = document.getElementById('can');
     energyElement = document.getElementById('energy');
     bubblesContainer = document.querySelector('.bubbles');
+    const tapToBreakButton = document.getElementById('tapToBreakButton');
+
 
     console.log('Найденные элементы:', {
-        progressBar, balanceElement, canElement, energyElement, bubblesContainer
+        progressBar, balanceElement, canElement, energyElement, bubblesContainer, tapToBreakButton
     });
 
     if (!progressBar || !balanceElement || !canElement || !energyElement || !bubblesContainer) {
@@ -224,6 +226,8 @@ function initializeMainPage() {
     isOnline = true;
 
     canElement.addEventListener('click', handleCanClick);
+    tapToBreakButton.addEventListener('click', handleCanClick);
+
 
     document.querySelectorAll('.footer-btn').forEach(btn => {
         btn.addEventListener('click', handleFooterButtonClick);
