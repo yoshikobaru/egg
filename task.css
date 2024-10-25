@@ -74,8 +74,10 @@
 }
 
 .tasks-page .bonus-item img {
-    width: 32px; /* Немного увеличим размер для бонусных монет */
-    height: 32px;
+    width: 40px; /* Немного увеличим размер для бонусных монет */
+    height: 40px;
+    object-fit: contain; /* Сохраним пропорции изображения */
+    margin-bottom: 5px;
 }
 
 .tasks-page .bonus-item .locked-coin {
@@ -97,7 +99,7 @@
 .tasks-page .task-item {
     background-color: #3F7A88;
     border-radius: 35px;
-    padding: 15px;
+    padding: 12px 20px; /* Увеличиваем отступы для баланса */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -107,15 +109,16 @@
 .tasks-page .task-info {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 15px; /* Увеличиваем расстояние между кружком и текстом */
     color: white;
 }
 
 .tasks-page .task-circle {
-    width: 20px;
-    height: 20px;
+    width: 24px; /* Увеличиваем размер */
+    height: 24px;
     border-radius: 50%;
-    background-color: var(--tertiary-color);
+    background-color: white; /* Меняем цвет на белый */
+    border: 2px solid var(--tertiary-color); /* Добавляем границу для контраста */
 }
 
 .tasks-page .task-reward {
