@@ -400,7 +400,7 @@ updateEnergyButton();
             const newBalance = currentBalance - item.price;
             localStorage.setItem('balance', newBalance.toString());
 
-            // Увеличиваем соответствующую прибыль или энергию
+            // Увеличиваем соответствую��ую прибыль или энергию
             if (item.profitType === 'hourly') {
                 const newHourlyProfit = currentHourlyProfit + item.profit;
                 localStorage.setItem('hourlyProfit', newHourlyProfit.toString());
@@ -784,4 +784,61 @@ if (localStorage.getItem('eggTapMaxLevel') === 'true') {
     currentEggTapLevel = eggTapData.length - 1;
 }
 updateEggTapButton();
+
+// В начале файла после объявления констант добавьте:
+function initializeGameState() {
+    // Устанавливаем базовые значения, если они отсутствуют
+    if (!localStorage.getItem('tapProfit')) {
+        localStorage.setItem('tapProfit', '1');
+    }
+    if (!localStorage.getItem('hourlyProfit')) {
+        localStorage.setItem('hourlyProfit', '0');
+    }
+    if (!localStorage.getItem('maxEnergy')) {
+        localStorage.setItem('maxEnergy', '100');
+    }
+    
+    // Сбрасываем значения к базовым
+    let tapProfit = 1; // Базовое значение
+    let hourlyProfit = 0; // Базовое значение
+    
+    // Учитываем все улучшения
+    if (localStorage.getItem('drinkLitLevel')) {
+        const level = parseInt(localStorage.getItem('drinkLitLevel'));
+        for (let i = 0; i < level; i++) {
+            tapProfit += drinkLitData[i].profit;
+        }
+    }
+    
+    if (localStorage.getItem('eggTapLevel')) {
+        const level = parseInt(localStorage.getItem('eggTapLevel'));
+        for (let i = 0; i < level; i++) {
+            tapProfit += eggTapData[i].profit;
+        }
+    }
+    
+    if (localStorage.getItem('farmLevel')) {
+        const level = parseInt(localStorage.getItem('farmLevel'));
+        for (let i = 0; i < level; i++) {
+            hourlyProfit += farmData[i].profit;
+        }
+    }
+    
+    if (localStorage.getItem('hourlyIncomeLevel')) {
+        const level = parseInt(localStorage.getItem('hourlyIncomeLevel'));
+        for (let i = 0; i < level; i++) {
+            hourlyProfit += hourlyIncomeData[i].profit;
+        }
+    }
+    
+    // Сохраняем пересчитанные значения
+    localStorage.setItem('tapProfit', tapProfit.toString());
+    localStorage.setItem('hourlyProfit', hourlyProfit.toString());
+    
+    // Обновляем отображение на странице
+    updateProfitDisplay();
+}
+
+// Вызываем функцию при загрузке страницы
+document.addEventListener('DOMContentLoaded', initializeGameState);
 })();
