@@ -214,6 +214,18 @@ function initializeTasks() {
             enableTask2Button(task2Button);
         }
     }
+    let isTask4Completed = false;
+    isTask4Completed = localStorage.getItem('task4Completed') === 'true';
+    console.log('Состояние task4Completed:', isTask4Completed);
+    
+    const task4Button = document.getElementById('task4Button');
+    if (task4Button) {
+        if (isTask4Completed) {
+            disableTask4Button(task4Button);
+        } else {
+            enableTask4Button(task4Button);
+        }
+    }
 }
 
 function handleTask1Click() {
@@ -334,4 +346,51 @@ function handleTask3Click() {
     } else {
         alert('Сначала нужно полностью разбить яйцо!');
     }
+}
+
+
+
+
+
+function handleTask4Click() {
+    console.log('Task 4 clicked');
+    
+    // Проверяем, есть ли приглашенные друзья
+    const invitedFriends = parseInt(localStorage.getItem('invitedFriends')) || 0;
+    
+    if (invitedFriends > 0) {
+        // Обновляем баланс
+        let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
+        currentBalance += 2000; // Награда за приглашение друга
+        localStorage.setItem('balance', currentBalance.toString());
+
+        // Отмечаем задание как выполненное
+        localStorage.setItem('task4Completed', 'true');
+        console.log('Задание приглашения друга отмечено как выполненное');
+
+        // Обновляем отображение задания
+        const task4Button = document.getElementById('task4Button');
+        if (task4Button) {
+            disableTask4Button(task4Button);
+        }
+
+        // Отправляем сообщение об обновлении баланса
+        window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
+        
+        alert('Поздравляем! Вы получили награду за приглашение друга!');
+    } else {
+        alert('Сначала пригласите друга!');
+    }
+}
+
+function disableTask4Button(button) {
+    button.disabled = true;
+    button.parentElement.classList.add('completed');
+    console.log('Кнопка задания приглашения друга деактивирована');
+}
+
+function enableTask4Button(button) {
+    button.disabled = false;
+    button.parentElement.classList.remove('completed');
+    console.log('Кнопка задания приглашения друга активирована');
 }
