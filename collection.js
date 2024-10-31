@@ -2,6 +2,15 @@
     const collectionGrid = document.getElementById('collection-grid');
     const marketItems = document.getElementById('market-items');
 
+    function updateInitialTapProfit() {
+        const baseTapProfit = parseInt(localStorage.getItem('drinkLitLevel')) || 1;
+        const eggTapBonus = parseInt(localStorage.getItem('eggTapBonus')) || 0;
+        const totalTapProfit = baseTapProfit + eggTapBonus;
+        localStorage.setItem('tapProfit', totalTapProfit.toString());
+    }
+
+    updateInitialTapProfit();
+
     
     const canImages = [
         'assets/egg.png',
@@ -438,7 +447,7 @@ updateEnergyButton();
 
     function updateCollectionDisplay() {
         // Здесь можно обновить отображение коллекции, если необходимо
-        // Например, разблокировать купленный предмет в сетке коллекции
+        // Например, разблокировать куплнный предмет в сетке коллекции
     }
 
     function updateProfitDisplay() {
@@ -751,17 +760,24 @@ document.getElementById('eggTapButton').addEventListener('click', function() {
 
     const nextLevel = eggTapData[currentEggTapLevel];
     const currentBalance = parseInt(localStorage.getItem('balance')) || 0;
-    const currentTapProfit = parseInt(localStorage.getItem('tapProfit')) || 1;
 
     if (currentBalance >= nextLevel.price) {
         const newBalance = currentBalance - nextLevel.price;
         localStorage.setItem('balance', newBalance.toString());
 
-        const newTapProfit = currentTapProfit + nextLevel.profit;
-        localStorage.setItem('tapProfit', newTapProfit.toString());
+        // Получаем текущий бонус и добавляем новый
+        const currentEggTapBonus = parseInt(localStorage.getItem('eggTapBonus')) || 0;
+        const newEggTapBonus = currentEggTapBonus + nextLevel.profit;
+        localStorage.setItem('eggTapBonus', newEggTapBonus.toString());
+
+        // Получаем базовую прибыль за тап (от улучшения "Удар по яичку")
+        const baseTapProfit = parseInt(localStorage.getItem('drinkLitLevel')) || 1;
+        // Вычисляем общую прибыль
+        const totalTapProfit = baseTapProfit + newEggTapBonus;
+        localStorage.setItem('tapProfit', totalTapProfit.toString());
         
         if (typeof updateTapProfit === 'function') {
-            tapProfit = newTapProfit;
+            tapProfit = totalTapProfit;
             updateTapProfit();
         }
 
