@@ -332,7 +332,7 @@ function handleTask3Click() {
         localStorage.setItem('balance', (currentBalance + reward).toString());
         localStorage.setItem('task3Completed', 'true');
         
-        // Обновляем отображение баланса
+        // Обновляем отображен��е баланса
         window.postMessage({ type: 'updateBalance', balance: currentBalance + reward }, '*');
         
         // Отключаем кнопку
@@ -355,8 +355,17 @@ function handleTask3Click() {
 function handleTask4Click() {
     console.log('Task 4 clicked');
     
-    // Проверяем, есть ли приглашенные друзья
+    // Проверяем состояние задания
+    const isTask4Completed = localStorage.getItem('task4Completed') === 'true';
+    
+    if (isTask4Completed) {
+        alert('Вы уже выполнили это задание!');
+        return;
+    }
+    
+    // Получаем количество приглашенных друзей из localStorage
     const invitedFriends = parseInt(localStorage.getItem('invitedFriends')) || 0;
+    console.log('Количество приглашенных друзей:', invitedFriends);
     
     if (invitedFriends > 0) {
         // Обновляем баланс
@@ -394,3 +403,11 @@ function enableTask4Button(button) {
     button.parentElement.classList.remove('completed');
     console.log('Кнопка задания приглашения друга активирована');
 }
+
+// Добавляем обработчик клика на кнопку задания при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    const task4Button = document.getElementById('task4Button');
+    if (task4Button) {
+        task4Button.addEventListener('click', handleTask4Click);
+    }
+});
