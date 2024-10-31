@@ -10,6 +10,12 @@
     color: white;
     height: 100vh;
     box-sizing: border-box;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    max-height: 100vh;
+}
+body {
+    overflow: hidden;
 }
 
 .tasks-page h1, .tasks-page h2 {

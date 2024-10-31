@@ -5,8 +5,9 @@
     flex-direction: column;
     padding: 20px;
     justify-content: flex-start;
-    overflow-y: auto;
-    max-height: 100vh;
+    overflow-y: scroll;
+    max-height:calc(100vh - 40px);
+    overscroll-behavior: contain;
 }
 
 h1 {
@@ -193,6 +194,7 @@ h2 {
 
 body {
     display: flex;
+    overflow: hidden;
     flex-direction: column;
     min-height: 100vh;
     margin: 0;

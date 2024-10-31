@@ -139,7 +139,7 @@ function applyTheme(theme) {
         popup.innerHTML = `
             <div class="bonus-popup-content">
                 <h2>Бонус получен!</h2>
-                <p>Вы получили ${amount} LitCoin</p>
+                <p>Вы получили ${amount} EggCoin</p>
                 <button class="closePopup">OK</button>
             </div>
         `;
