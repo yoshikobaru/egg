@@ -332,7 +332,7 @@ function handleTask3Click() {
         localStorage.setItem('balance', (currentBalance + reward).toString());
         localStorage.setItem('task3Completed', 'true');
         
-        // Обновляем отображен��е баланса
+        // Обновляем отображене баланса
         window.postMessage({ type: 'updateBalance', balance: currentBalance + reward }, '*');
         
         // Отключаем кнопку

@@ -60,6 +60,10 @@ function getReferredFriends() {
 function displayReferredFriends(friends) {
     const friendsList = document.getElementById('friendsList');
     if (friendsList) {
+
+        localStorage.setItem('invitedFriends', friends.length);
+        console.log('Обновлено количество приглашенных друзей в localStorage:', friends.length);
+        
         friendsList.innerHTML = '';
         if (friends.length === 0) {
             friendsList.innerHTML = '<p>У вас пока нет приглашенных друзей.</p>';
