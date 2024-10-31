@@ -200,6 +200,20 @@ function initializeTasks() {
             enableTask1Button(task1Button);
         }
     }
+
+
+    let isTask2Completed = false;
+    isTask2Completed = localStorage.getItem('task2Completed') === 'true';
+    console.log('Состояние task2Completed:', isTask2Completed);
+    
+    const task2Button = document.getElementById('task2Button');
+    if (task2Button) {
+        if (isTask2Completed) {
+            disableTask2Button(task2Button);
+        } else {
+            enableTask2Button(task2Button);
+        }
+    }
 }
 
 function handleTask1Click() {
@@ -223,13 +237,10 @@ function handleTask1Click() {
     if (task1Button) {
         disableTask1Button(task1Button);
     }
-
-    // Отправляем сообщение об обновлении баланса
     window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
     
     console.log('New balance:', currentBalance);
 }
-
 function disableTask1Button(button) {
     button.disabled = true;
     button.parentElement.classList.add('completed');
@@ -237,6 +248,49 @@ function disableTask1Button(button) {
 }
 
 function enableTask1Button(button) {
+    button.disabled = false;
+    button.parentElement.classList.remove('completed');
+    console.log('Кнопка задания активирована');
+}
+
+
+
+
+    function handleTask2Click() {
+        console.log('Task 2 clicked');
+        
+        // Открываем ссылку на группу в Telegram
+        window.open('https://t.me/LITWIN_TAP_BOT', '_blank');
+    
+        // Обновляем баланс
+        let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
+        currentBalance += 1000;
+        localStorage.setItem('balance', currentBalance.toString());
+    
+        // Отмечаем задание как выполненное
+        isTask2Completed = true;
+        localStorage.setItem('task2Completed', 'true');
+        console.log('Задание отмечено как выполненное');
+    
+        // Обновляем отображение задания
+        const task2Button = document.getElementById('task2Button');
+        if (task2Button) {
+            disableTask2Button(task2Button);
+        }
+
+    // Отправляем сообщение об обновлении баланса
+    window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
+    
+    console.log('New balance:', currentBalance);
+}
+
+function disableTask2Button(button) {
+    button.disabled = true;
+    button.parentElement.classList.add('completed');
+    console.log('Кнопка задания деактивирована');
+}
+
+function enableTask2Button(button) {
     button.disabled = false;
     button.parentElement.classList.remove('completed');
     console.log('Кнопка задания активирована');
@@ -252,6 +306,32 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const task1Button = document.getElementById('task1Button');
     if (task1Button) {
-        task1Button.addEventListener('click', handleTask1Click);
+        task1Button.addEventListener('click', handleTask2Click);
     }
 });
+
+function handleTask3Click() {
+    const currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
+    const task3Completed = localStorage.getItem('task3Completed');
+    
+    if (!task3Completed && currentLevel >= 2) { // Проверяем, что яйцо было сломано хотя бы раз (уровень 2 или выше)
+        const reward = 1000;
+        const currentBalance = parseInt(localStorage.getItem('balance')) || 0;
+        localStorage.setItem('balance', (currentBalance + reward).toString());
+        localStorage.setItem('task3Completed', 'true');
+        
+        // Обновляем отображение баланса
+        window.postMessage({ type: 'updateBalance', balance: currentBalance + reward }, '*');
+        
+        // Отключаем кнопку
+        const button = document.getElementById('task3Button');
+        button.disabled = true;
+        button.style.opacity = '0.5';
+        
+        alert('Поздравляем! Вы получили награду за первое разбитое яйцо!');
+    } else if (task3Completed) {
+        alert('Вы уже выполнили это задание!');
+    } else {
+        alert('Сначала нужно полностью разбить яйцо!');
+    }
+}

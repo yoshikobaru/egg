@@ -409,7 +409,7 @@ function updateProgress() {
     
     const levelDisplay = document.getElementById('levelDisplay');
     if (levelDisplay) {
-        levelDisplay.textContent = `Liga ${currentLevel}`;
+        levelDisplay.textContent = `Breaks ${currentLevel}`;
     }
 
     localStorage.setItem('totalEarnedCoins', totalEarnedCoins.toString());
