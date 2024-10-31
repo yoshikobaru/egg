@@ -81,10 +81,6 @@
         }
         
         localStorage.setItem('drinkLitLevel', currentDrinkLitLevel.toString());
-
-        // Добавляем пересчет и сохранение общей прибыли за тап
-        const tapProfit = calculateTotalTapProfit();
-        localStorage.setItem('tapProfit', tapProfit.toString());
     }
 
     document.getElementById('drinkLitButton').addEventListener('click', function() {
@@ -189,10 +185,6 @@
         }
         
         localStorage.setItem('farmLevel', currentFarmLevel.toString());
-
-        // Добавляем пересчет и сохранение общей прибыли в час
-        const hourlyProfit = calculateTotalHourlyProfit();
-        localStorage.setItem('hourlyProfit', hourlyProfit.toString());
     }
     
     document.getElementById('farmButton').addEventListener('click', function() {
@@ -408,7 +400,7 @@ updateEnergyButton();
             const newBalance = currentBalance - item.price;
             localStorage.setItem('balance', newBalance.toString());
 
-            // Увеличиваем соответствуюю прибыль или энергию
+            // Увеличиваем соответствующую прибыль или энергию
             if (item.profitType === 'hourly') {
                 const newHourlyProfit = currentHourlyProfit + item.profit;
                 localStorage.setItem('hourlyProfit', newHourlyProfit.toString());
@@ -432,7 +424,7 @@ updateEnergyButton();
                 window.parent.postMessage({ type: 'updateMaxEnergy', increase: item.profit }, '*');
             }
 
-            // Обновляем отображение на стр��нице коллекции
+            // Обновляем отображение на странице коллекции
             updateCollectionDisplay();
 
             // Обновляем отображение баланса
@@ -655,10 +647,6 @@ function updateHourlyIncomeButton() {
     }
     
     localStorage.setItem('hourlyIncomeLevel', currentHourlyIncomeLevel.toString());
-
-    // Добавляем пересчет и сохранение общей прибыли в час
-    const hourlyProfit = calculateTotalHourlyProfit();
-    localStorage.setItem('hourlyProfit', hourlyProfit.toString());
 }
 
 document.getElementById('hourlyIncomeButton').addEventListener('click', function() {
@@ -756,10 +744,6 @@ function updateEggTapButton() {
     }
     
     localStorage.setItem('eggTapLevel', currentEggTapLevel.toString());
-
-    // Добавляем пересчет и сохранение общей прибыли за тап
-    const tapProfit = calculateTotalTapProfit();
-    localStorage.setItem('tapProfit', tapProfit.toString());
 }
 
 document.getElementById('eggTapButton').addEventListener('click', function() {
@@ -800,98 +784,4 @@ if (localStorage.getItem('eggTapMaxLevel') === 'true') {
     currentEggTapLevel = eggTapData.length - 1;
 }
 updateEggTapButton();
-
-// В начале файла после объявления констант добавьте:
-function initializeGameState() {
-    // Устанавливаем базовые значения, если они отсутствуют
-    if (!localStorage.getItem('tapProfit')) {
-        localStorage.setItem('tapProfit', '1');
-    }
-    if (!localStorage.getItem('hourlyProfit')) {
-        localStorage.setItem('hourlyProfit', '0');
-    }
-    if (!localStorage.getItem('maxEnergy')) {
-        localStorage.setItem('maxEnergy', '100');
-    }
-    
-    // Сбрасываем значения к базовым
-    let tapProfit = 1; // Базовое значение
-    let hourlyProfit = 0; // Базовое значение
-    
-    // Учитываем все улучшения
-    if (localStorage.getItem('drinkLitLevel')) {
-        const level = parseInt(localStorage.getItem('drinkLitLevel'));
-        for (let i = 0; i < level; i++) {
-            tapProfit += drinkLitData[i].profit;
-        }
-    }
-    
-    if (localStorage.getItem('eggTapLevel')) {
-        const level = parseInt(localStorage.getItem('eggTapLevel'));
-        for (let i = 0; i < level; i++) {
-            tapProfit += eggTapData[i].profit;
-        }
-    }
-    
-    if (localStorage.getItem('farmLevel')) {
-        const level = parseInt(localStorage.getItem('farmLevel'));
-        for (let i = 0; i < level; i++) {
-            hourlyProfit += farmData[i].profit;
-        }
-    }
-    
-    if (localStorage.getItem('hourlyIncomeLevel')) {
-        const level = parseInt(localStorage.getItem('hourlyIncomeLevel'));
-        for (let i = 0; i < level; i++) {
-            hourlyProfit += hourlyIncomeData[i].profit;
-        }
-    }
-    
-    // Сохраняем пересчитанные значения
-    localStorage.setItem('tapProfit', tapProfit.toString());
-    localStorage.setItem('hourlyProfit', hourlyProfit.toString());
-    
-    // Обновляем отображение на странице
-    updateProfitDisplay();
-}
-
-// Вызываем функцию при загрузке страницы
-document.addEventListener('DOMContentLoaded', initializeGameState);
-
-// Добавляем функции для подсчета общей прибыли
-function calculateTotalTapProfit() {
-    let totalTapProfit = 1; // Базовое значение
-
-    // Учитываем DrinkLit
-    const drinkLitLevel = parseInt(localStorage.getItem('drinkLitLevel')) || 0;
-    for (let i = 0; i < drinkLitLevel; i++) {
-        totalTapProfit += drinkLitData[i].profit;
-    }
-
-    // Учитываем EggTap
-    const eggTapLevel = parseInt(localStorage.getItem('eggTapLevel')) || 0;
-    for (let i = 0; i < eggTapLevel; i++) {
-        totalTapProfit += eggTapData[i].profit;
-    }
-
-    return totalTapProfit;
-}
-
-function calculateTotalHourlyProfit() {
-    let totalHourlyProfit = 0; // Базовое значение
-
-    // Учитываем Farm
-    const farmLevel = parseInt(localStorage.getItem('farmLevel')) || 0;
-    for (let i = 0; i < farmLevel; i++) {
-        totalHourlyProfit += farmData[i].profit;
-    }
-
-    // Учитываем HourlyIncome
-    const hourlyIncomeLevel = parseInt(localStorage.getItem('hourlyIncomeLevel')) || 0;
-    for (let i = 0; i < hourlyIncomeLevel; i++) {
-        totalHourlyProfit += hourlyIncomeData[i].profit;
-    }
-
-    return totalHourlyProfit;
-}
 })();
