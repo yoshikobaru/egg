@@ -74,13 +74,17 @@ body {
     cursor: not-allowed;
 }
 .friend-item {
-    background-color: var(--tertiary-color);
-    border-radius: 10px;
-    padding: 10px;
+    background-color: #3F7A88;
+    border-radius: 30px; /* Обновили радиус */
+    padding: 10px 16px; /* Обновили паддинги согласно макету */
     margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 327px; /* Фиксированная ширина */
+    height: 60px; /* Высота согласно макету */
+    box-sizing: border-box;
+    gap: 52px;
 }
 
 .friend-name {
