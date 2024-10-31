@@ -8,14 +8,11 @@
     padding: 20px;
     background: linear-gradient(180deg, #90BEBB 15%, #C3DEC9 75%, #FFFFFF 800%);
     color: white;
-    height: 100vh;
+    min-height: 100vh;
     box-sizing: border-box;
-    overflow-y: scroll;
-    overscroll-behavior: contain;
-    max-height: 100vh;
 }
 body {
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 .tasks-page h1, .tasks-page h2 {
@@ -97,7 +94,6 @@ body {
 .tasks-page #tasks-list {
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
     flex-grow: 1;
     gap: 10px;
 }
