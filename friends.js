@@ -93,14 +93,18 @@ function claimFriendReward(friendId) {
     }
 
     // Получаем текущую прибыль за тап
-    const currentTapProfit = parseInt(localStorage.getItem('tapProfit')) || 1;
+    //const currentTapProfit = parseInt(localStorage.getItem('tapProfit')) || 1;
+    const currentBalance = parseInt(localStorage.getItem('balance')) || 0;
+
     
     // Устанавливаем новую прибыль (x2) на 30 секунд
-    const newTapProfit = currentTapProfit * 2;
-    window.updateTapProfit(newTapProfit);
+    //const newTapProfit = currentTapProfit * 2;
+    //window.updateTapProfit(newTapProfit);
+    const newBalance = currentBalance + 10000;
+    localStorage.setItem('balance', newBalance);
     
     // Показываем сообщение пользователю
-    showPopup('Награда получена!', 'Ваша прибыль за тап удвоена на 30 секунд!');
+    showPopup('Награда получена!', 'Вы получили 10000 монет!');
     
     // Отключаем кнопку
     const rewardButton = event.target;
@@ -111,10 +115,10 @@ function claimFriendReward(friendId) {
     localStorage.setItem(rewardKey, 'claimed');
     
     // Возвращаем прибыль к исходному значению через 30 секунд
-    setTimeout(() => {
-        window.updateTapProfit(currentTapProfit);
-        showPopup('Бонус закончился', 'Ваша прибыль за тап вернулась к обычному значению.');
-    }, 30000);
+    //setTimeout(() => {
+    //    window.updateTapProfit(currentTapProfit);
+    //    showPopup('Бонус закончился', 'Ваша прибыль за тап вернулась к обычному значению.');
+    //}, 30000);
 }
 
 
