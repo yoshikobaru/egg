@@ -58,6 +58,9 @@ body {
 .friends-list {
     width: 100%;
     max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Центрируем элементы по горизонтали */
 }
 .friend-reward-button {
     background-color: var(--secondary-color);
@@ -85,6 +88,8 @@ body {
     height: 60px; /* Высота согласно макету */
     box-sizing: border-box;
     gap: 52px;
+    margin-left: auto; /* Добавляем автоматические отступы слева */
+    margin-right: auto; /* Добавляем автоматические отступы справа */
 }
 
 .friend-name {
