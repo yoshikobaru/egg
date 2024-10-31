@@ -231,6 +231,11 @@ function initializeTasks() {
 function handleTask1Click() {
     console.log('Task 1 clicked');
     
+    if (localStorage.getItem('task1Completed') === 'true') {
+        alert('Вы уже выполнили это задание!');
+        return;
+    }
+    
     // Открываем ссылку на группу в Telegram
     window.open('https://t.me/litwin_community', '_blank');
 
@@ -240,7 +245,6 @@ function handleTask1Click() {
     localStorage.setItem('balance', currentBalance.toString());
 
     // Отмечаем задание как выполненное
-    isTask1Completed = true;
     localStorage.setItem('task1Completed', 'true');
     console.log('Задание отмечено как выполненное');
 
@@ -271,6 +275,11 @@ function enableTask1Button(button) {
     function handleTask2Click() {
         console.log('Task 2 clicked');
         
+        if (localStorage.getItem('task2Completed') === 'true') {
+            alert('Вы уже выполнили это задание!');
+            return;
+        }
+        
         // Открываем ссылку на группу в Telegram
         window.open('https://t.me/LITWIN_TAP_BOT', '_blank');
     
@@ -280,7 +289,6 @@ function enableTask1Button(button) {
         localStorage.setItem('balance', currentBalance.toString());
     
         // Отмечаем задание как выполненное
-        isTask2Completed = true;
         localStorage.setItem('task2Completed', 'true');
         console.log('Задание отмечено как выполненное');
     
@@ -318,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const task1Button = document.getElementById('task1Button');
     if (task1Button) {
-        task1Button.addEventListener('click', handleTask2Click);
+        task1Button.addEventListener('click', handleTask1Click);
     }
 });
 
