@@ -6,9 +6,9 @@
 
 .tasks-page {
     padding: 20px;
-    background: linear-gradient(180deg, #90BEBB 15%, #C3DEC9 75%, #FFFFFF 800%);
+    background: linear-gradient(180deg, #90BEBB 5%, #C3DEC9 45%, #FFFFFF 150%);
     color: white;
-    min-height: 100vh;
+    min-height: 120vh;
     box-sizing: border-box;
 }
 body {
@@ -95,7 +95,8 @@ body {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    gap: 10px;
+    gap: 15px;
+    padding-bottom: 40px;
 }
 
 .tasks-page .task-item {
