@@ -15,7 +15,7 @@ const energyRegenInterval = 5000; // Интервал восстановлени
 
 let currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
 const canImages = [
-    'assets/bankaClassic.png',
+    'assets/egg.png',
     'assets/bankamango.png',
     'assets/bankablueberry.png',
     'assets/banka4.png',
@@ -716,7 +716,7 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('focus', () => {
     if (!isOnline) {
         isOnline = true;
-        console.log('Во��вращение в игру, расчет офлайн-зарабтка');
+        console.log('Вовращение в игру, расчет офлайн-зарабтка');
         calculateOfflineEarnings();
     }
 });
@@ -955,4 +955,61 @@ function applyAdBonus() {
 document.addEventListener('DOMContentLoaded', initializeFriendsPageFromMain);
 // Получение данных с сервера при инициализации
 document.addEventListener('DOMContentLoaded', fetchDataFromServer);
+
+// Добавьте в начало файла main.js
+async function initializeApp() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingBar = document.getElementById('loadingBar');
+    const loadingText = document.getElementById('loadingText');
+    let progress = 0;
+
+    const loadingSteps = [
+        { text: 'LOADING...', weight: 25 },
+        { text: 'LOADING...', weight: 25 },
+        { text: 'LOADING...', weight: 25 },
+        { text: 'LOADING...', weight: 25 }
+    ];
+
+    function updateProgress(step) {
+        progress += step;
+        loadingBar.style.width = `${progress}%`;
+    }
+
+    // Последовательная загрузка
+    for (const step of loadingSteps) {
+        loadingText.textContent = step.text;
+        await new Promise(resolve => {
+            setTimeout(() => {
+                updateProgress(step.weight);
+                resolve();
+            }, 500);
+        });
+    }
+
+    try {
+        // Инициализация компонентов
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+        }
+
+        await initializeVariables();
+        await fetchDataFromServer();
+        initializeMainPage();
+        
+        // Плавно скрываем экран загрузки
+        setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }, 500);
+
+    } catch (error) {
+        console.error('Ошибка при инициализации:', error);
+        loadingText.textContent = 'ERROR...';
+    }
+}
+
+// Заменяем существующий обработчик DOMContentLoaded
+document.addEventListener('DOMContentLoaded', initializeApp);
 

@@ -692,3 +692,73 @@ body {
     height: 100%;
     overflow-y: hidden;
 }
+
+/* Стили для экрана загрузки */
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#90BEBB 25%, #C3DEC9 75%, #ffffff 100%);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loading-progress {
+    position: absolute;
+    width: 350px; /* Делаем прогресс-бар длиннее */
+    height: 10px; /* Делаем прогресс-бар немного шире */
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 13px;
+    overflow: hidden;
+    top: 50%; /* Располагаем точно по центру */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.loading-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        #FF00E5 0%, 
+        #FF3939 50%, 
+        #FFB800 100%
+    );
+    border-radius: 1.5px;
+    transition: width 0.3s ease-out;
+}
+
+.loading-icon {
+    position: absolute;
+    width: 350px; /* Увеличено с 250px до 375px (250 * 1.5) */
+    height: 500px; /* Увеличено с 360px до 540px (360 * 1.5) */
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    object-fit: contain;
+}
+
+.loading-text {
+    position: absolute;
+    top: 500px; /* Располагаем текст под прогресс-баром */
+    left: 50%;
+    transform: translateX(-50%);
+    color: #000000;
+    font-size: 32px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
