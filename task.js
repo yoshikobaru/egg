@@ -251,7 +251,7 @@ function handleTask1Click() {
         return;
     }
     
-    // Открываем ссыл��у на группу в Telegram
+    // Открываем ссылу на группу в Telegram
     window.open('https://t.me/litwin_community', '_blank');
 
     // Обновляем баланс
