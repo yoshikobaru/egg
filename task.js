@@ -413,3 +413,57 @@ document.addEventListener('DOMContentLoaded', function() {
         task4Button.addEventListener('click', handleTask4Click);
     }
 });
+
+function updateTaskStyles() {
+    const taskStates = {
+        'task1': localStorage.getItem('task1Completed') === 'true',
+        'task2': localStorage.getItem('task2Completed') === 'true',
+        'task3': localStorage.getItem('task3Completed') === 'true',
+        'task4': localStorage.getItem('task4Completed') === 'true'
+    };
+
+    Object.entries(taskStates).forEach(([taskId, isCompleted]) => {
+        const taskElement = document.querySelector(`.task-item:nth-child(${parseInt(taskId.replace('task', ''))})`);
+        
+        if (taskElement && isCompleted) {
+            taskElement.classList.add('completed');
+            
+            // Обновляем стили кнопки
+            const button = taskElement.querySelector('.task-reward-button');
+            if (button) {
+                button.disabled = true;
+                button.textContent = 'Выполнено';
+            }
+            
+            // Обновляем стили круга
+            const circle = taskElement.querySelector('.task-circle');
+            if (circle) {
+                circle.style.backgroundColor = '#4CAF50';
+            }
+        }
+    });
+}
+
+// Добавляем вызов функции при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    // ... существующий код ...
+    updateTaskStyles();
+});
+
+// Модифицируем функцию disableTaskButton
+function disableTaskButton(taskId) {
+    const taskElement = document.querySelector(`.task-item:nth-child(${parseInt(taskId.replace('task', ''))})`);
+    
+    if (taskElement) {
+        taskElement.classList.add('completed');
+        
+        const button = taskElement.querySelector('.task-reward-button');
+        if (button) {
+            button.disabled = true;
+            button.textContent = 'Выполнено';
+        }
+        
+        localStorage.setItem(`${taskId}Completed`, 'true');
+        updateTaskStyles(); // Обновляем стили всех заданий
+    }
+}
