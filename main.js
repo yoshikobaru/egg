@@ -1,56 +1,3 @@
-async function initializeApp() {
-    const loadingScreen = document.getElementById('loading-screen');
-    const loadingBar = document.getElementById('loadingBar');
-    const loadingText = document.getElementById('loadingText');
-    let progress = 0;
-
-    const loadingSteps = [
-        { text: 'LOADING...', weight: 25 },
-        { text: 'LOADING...', weight: 25 },
-        { text: 'LOADING...', weight: 25 },
-        { text: 'LOADING...', weight: 25 }
-    ];
-
-    function updateProgress(step) {
-        progress += step;
-        loadingBar.style.width = `${progress}%`;
-    }
-
-    // Последовательная загрузка
-    for (const step of loadingSteps) {
-        loadingText.textContent = step.text;
-        await new Promise(resolve => {
-            setTimeout(() => {
-                updateProgress(step.weight);
-                resolve();
-            }, 500);
-        });
-    }
-
-    try {
-        // Инициализация компонентов
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.ready();
-        }
-
-        await initializeVariables();
-        await fetchDataFromServer();
-        initializeMainPage();
-        
-        // Плавно скрываем экран загрузки
-        setTimeout(() => {
-            loadingScreen.classList.add('hidden');
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 500);
-        }, 500);
-
-    } catch (error) {
-        console.error('Ошибка при инициализации:', error);
-        loadingText.textContent = 'ERROR...';
-    }
-}
-
 let progressBar, balanceElement, canElement, energyElement, bubblesContainer;
 let progress, balance, energy, hourlyProfit, tapProfit;
 const clicksToFill = 10;
@@ -700,7 +647,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeMainPage();
 });
 
-// Запуск регенерации э��ергии
+// Запуск регенерации эергии
 setInterval(regenerateEnergy, 5000);
 
 function calculateOfflineEarnings() {
@@ -1010,8 +957,58 @@ document.addEventListener('DOMContentLoaded', initializeFriendsPageFromMain);
 document.addEventListener('DOMContentLoaded', fetchDataFromServer);
 
 // Добавьте в начало файла main.js
+async function initializeApp() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingBar = document.getElementById('loadingBar');
+    const loadingText = document.getElementById('loadingText');
+    let progress = 0;
 
+    try {
+        // Имитация загрузки с реальными шагами
+        const loadingSteps = [
+            { text: 'LOADING...', weight: 30 },
+            { text: 'LOADING...', weight: 30 },
+            { text: 'LOADING...', weight: 40 }
+        ];
 
-// Заменяем существующий обработчик DOMContentLoaded
-document.addEventListener('DOMContentLoaded', initializeApp);
+        for (const step of loadingSteps) {
+            await new Promise(resolve => setTimeout(resolve, 500)); // Уменьшаем задержку
+            progress += step.weight;
+            loadingBar.style.width = `${progress}%`;
+            loadingText.textContent = step.text;
+        }
+
+        // Важно: убедимся, что все ресурсы загружены
+        await Promise.all([
+            // Добавьте сюда другие промисы загрузки, если они есть
+            new Promise(resolve => setTimeout(resolve, 500)) // Минимальная задержка
+        ]);
+
+        // Скрываем экран загрузки
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.transition = 'opacity 0.5s ease-out';
+        
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            document.body.style.overflow = ''; // Разблокируем прокрутку
+        }, 500);
+
+    } catch (error) {
+        console.error('Ошибка при инициализации:', error);
+        loadingText.textContent = 'ERROR...';
+        // Добавим автоматическое скрытие экрана загрузки даже при ошибке через 2 секунды
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+        }, 2000);
+    }
+}
+
+// Убедимся, что функция вызывается только один раз
+let initialized = false;
+document.addEventListener('DOMContentLoaded', () => {
+    if (!initialized) {
+        initialized = true;
+        initializeApp();
+    }
+});
 
