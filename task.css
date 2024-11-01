@@ -102,11 +102,11 @@ body {
 .tasks-page .task-item {
     background-color: #3F7A88;
     border-radius: 35px;
-    padding: 12px 20px; /* Увеличиваем отступы для баланса */
+    padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #3F7A88;
+    transition: all 0.3s ease;
 }
 
 .tasks-page .task-info {
@@ -205,17 +205,23 @@ h2 {
 }
 
 .task-item.completed {
-    opacity: 0.5;
-    cursor: not-allowed;
+    opacity: 0.7;
+    background-color: rgba(63, 122, 136, 0.5); /* Более тёмный и прозрачный фон */
+    pointer-events: none; /* Блокируем взаимодействие */
 }
 
 .task-item.completed .task-circle {
-    background-color: #4CAF50; /* Зеленый цвет для выполненных заданий */
+    background-color: #4CAF50 !important; /* Зеленая галочка */
 }
 
 .task-item.completed .task-reward-button {
     opacity: 0.5;
     cursor: not-allowed;
+    pointer-events: none;
+}
+
+.task-item.completed .task-name {
+    color: rgba(255, 255, 255, 0.7); /* Делаем текст более прозрачным */
 }
 
 .task-reward-button {

@@ -188,31 +188,33 @@ setInterval(updateBonusButtons, 5000);
 function initializeTasks() {
     console.log('Инициализация задач');
     
-    // Проверяем состояние каждой задачи и применяем соответствующие стили
     ['task1', 'task2', 'task3', 'task4'].forEach(taskId => {
         const isCompleted = localStorage.getItem(`${taskId}Completed`) === 'true';
-        const button = document.getElementById(`${taskId}Button`);
+        const taskElement = document.querySelector(`#${taskId}`);
         
-        if (button) {
-            if (isCompleted) {
+        if (taskElement && isCompleted) {
+            taskElement.classList.add('completed');
+            const button = document.getElementById(`${taskId}Button`);
+            if (button) {
                 button.disabled = true;
-                button.parentElement.classList.add('completed');
-            } else {
-                button.disabled = false;
-                button.parentElement.classList.remove('completed');
             }
         }
     });
 }
 
-// Обновляем функции disable/enable для всех задач
 function disableTaskButton(taskId) {
+    const taskElement = document.querySelector(`#${taskId}`);
     const button = document.getElementById(`${taskId}Button`);
+    
+    if (taskElement) {
+        taskElement.classList.add('completed');
+    }
+    
     if (button) {
         button.disabled = true;
-        button.parentElement.classList.add('completed');
-        localStorage.setItem(`${taskId}Style`, 'completed');
     }
+    
+    localStorage.setItem(`${taskId}Completed`, 'true');
 }
 
 function enableTaskButton(taskId) {
