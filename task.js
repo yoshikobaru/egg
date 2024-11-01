@@ -196,10 +196,11 @@ function initializeTasks() {
     ];
     
     taskData.forEach(({ id, selector }) => {
-        const isCompleted = localStorage.getItem(`${id}Completed`) === 'true';
         const taskElement = document.querySelector(selector);
+        const isCompleted = localStorage.getItem(`${id}Completed`) === 'true';
         
         if (taskElement && isCompleted) {
+            // Применяем сохранённые стили
             taskElement.classList.add('completed');
             
             const circle = taskElement.querySelector('.task-circle');
@@ -212,6 +213,7 @@ function initializeTasks() {
                 button.disabled = true;
                 button.style.opacity = '0.5';
                 button.style.pointerEvents = 'none';
+                button.classList.add('completed-button'); // Добавляем класс для стилизации
             }
         }
     });
@@ -221,6 +223,7 @@ function disableTaskButton(taskId) {
     const taskElement = document.querySelector(`.task-item:nth-child(${parseInt(taskId.replace('task', ''))})`);
     
     if (taskElement) {
+        // Применяем и сохраняем состояние
         taskElement.classList.add('completed');
         
         const circle = taskElement.querySelector('.task-circle');
@@ -233,10 +236,18 @@ function disableTaskButton(taskId) {
             button.disabled = true;
             button.style.opacity = '0.5';
             button.style.pointerEvents = 'none';
+            button.classList.add('completed-button');
         }
+        
+        // Сохраняем состояние в localStorage
+        localStorage.setItem(`${taskId}Completed`, 'true');
+        localStorage.setItem(`${taskId}Style`, JSON.stringify({
+            completed: true,
+            circleColor: '#4CAF50',
+            buttonDisabled: true,
+            buttonOpacity: '0.5'
+        }));
     }
-    
-    localStorage.setItem(`${taskId}Completed`, 'true');
 }
 
 function enableTaskButton(taskId) {
