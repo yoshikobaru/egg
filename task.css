@@ -21,7 +21,10 @@ body {
 }
 
 .tasks-page .daily-bonus {
-    margin-bottom: 30px;
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 .tasks-page .bonus-grid {
@@ -29,10 +32,12 @@ body {
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     justify-content: center;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
 }
 
 .tasks-page .bonus-item {
-    background-color: var(--secondary-color);
     border: none;
     border-radius: 10px;
     aspect-ratio: 1;
@@ -44,29 +49,38 @@ body {
     transition: all 0.3s ease;
     padding: 5px;
     width: 100%;
-}
-
-.tasks-page .bonus-item.locked {
-    cursor: not-allowed;
-    opacity: 0.5;
+    background-color: var(--secondary-color);
 }
 
 .tasks-page .bonus-item.unlocked {
-    background-color: rgba(0, 116, 240, 0.4);
+    opacity: 1;
     cursor: pointer;
 }
 
-.tasks-page .bonus-item.unlocked:hover {
-    transform: scale(1.05);
+.tasks-page .bonus-item.locked {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 
 .tasks-page .bonus-item.claimed {
-    background-color: rgba(0, 116, 240, 0.2);
-    cursor: not-allowed;
+    background-color: #4CAF50 !important;
+    opacity: 0.9 !important;
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+}
+
+.tasks-page .bonus-item.claimed img {
+    filter: grayscale(100%) !important;
+}
+
+.tasks-page .bonus-item.claimed img.bonus-coin {
+    filter: grayscale(100%) !important;
+    opacity: 0.7 !important;
 }
 
 .tasks-page .bonus-item.claimed .bonus-coin {
-    filter: grayscale(100%);
+    opacity: 0.7;
 }
 
 .tasks-page .bonus-value {
@@ -77,9 +91,9 @@ body {
 }
 
 .tasks-page .bonus-item img {
-    width: 40px; /* Немного увеличим размер для бонусных монет */
+    width: 40px;
     height: 40px;
-    object-fit: contain; /* Сохраним пропорции изображения */
+    object-fit: contain;
     margin-bottom: 5px;
 }
 
@@ -112,7 +126,7 @@ body {
 .tasks-page .task-info {
     display: flex;
     align-items: center;
-    gap: 15px; /* Увеличиваем расстояние между кружком и текстом */
+    gap: 15px;
     color: white;
 }
 
@@ -142,23 +156,21 @@ body {
     height: 24px;
     border-radius: 50%;
     object-fit: cover;
-    background-color: #FFD700; /* Золотой цвет фона */
+    background-color: #FFD700;
     padding: 2px;
     box-sizing: border-box;
 }
 
-/* Общие стили для всех изображений Litcoin */
 .tasks-page img[src*="litcoin.png"] {
     width: 24px;
     height: 24px;
     border-radius: 50%;
     object-fit: cover;
-    background-color: #FFD700; /* Золотой цвет фона */
+    background-color: #FFD700;
     padding: 2px;
     box-sizing: border-box;
 }
 
-/* Новые стили для центрирования нижних квадратов */
 .tasks-page .bonus-grid:last-child {
     grid-template-columns: repeat(3, 1fr);
     width: 75%;
@@ -202,7 +214,6 @@ body {
 
 h2 {
     color: white;
-    /* ... существующие стили ... */
 }
 
 .task-item.completed {
