@@ -1,3 +1,56 @@
+async function initializeApp() {
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingBar = document.getElementById('loadingBar');
+    const loadingText = document.getElementById('loadingText');
+    let progress = 0;
+
+    const loadingSteps = [
+        { text: 'LOADING...', weight: 25 },
+        { text: 'LOADING...', weight: 25 },
+        { text: 'LOADING...', weight: 25 },
+        { text: 'LOADING...', weight: 25 }
+    ];
+
+    function updateProgress(step) {
+        progress += step;
+        loadingBar.style.width = `${progress}%`;
+    }
+
+    // Последовательная загрузка
+    for (const step of loadingSteps) {
+        loadingText.textContent = step.text;
+        await new Promise(resolve => {
+            setTimeout(() => {
+                updateProgress(step.weight);
+                resolve();
+            }, 500);
+        });
+    }
+
+    try {
+        // Инициализация компонентов
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+        }
+
+        await initializeVariables();
+        await fetchDataFromServer();
+        initializeMainPage();
+        
+        // Плавно скрываем экран загрузки
+        setTimeout(() => {
+            loadingScreen.classList.add('hidden');
+            setTimeout(() => {
+                loadingScreen.style.display = 'none';
+            }, 500);
+        }, 500);
+
+    } catch (error) {
+        console.error('Ошибка при инициализации:', error);
+        loadingText.textContent = 'ERROR...';
+    }
+}
+
 let progressBar, balanceElement, canElement, energyElement, bubblesContainer;
 let progress, balance, energy, hourlyProfit, tapProfit;
 const clicksToFill = 10;
@@ -647,7 +700,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeMainPage();
 });
 
-// Запуск регенерации энергии
+// Запуск регенерации э��ергии
 setInterval(regenerateEnergy, 5000);
 
 function calculateOfflineEarnings() {
@@ -957,58 +1010,7 @@ document.addEventListener('DOMContentLoaded', initializeFriendsPageFromMain);
 document.addEventListener('DOMContentLoaded', fetchDataFromServer);
 
 // Добавьте в начало файла main.js
-async function initializeApp() {
-    const loadingScreen = document.getElementById('loading-screen');
-    const loadingBar = document.getElementById('loadingBar');
-    const loadingText = document.getElementById('loadingText');
-    let progress = 0;
 
-    const loadingSteps = [
-        { text: 'LOADING...', weight: 25 },
-        { text: 'LOADING...', weight: 25 },
-        { text: 'LOADING...', weight: 25 },
-        { text: 'LOADING...', weight: 25 }
-    ];
-
-    function updateProgress(step) {
-        progress += step;
-        loadingBar.style.width = `${progress}%`;
-    }
-
-    // Последовательная загрузка
-    for (const step of loadingSteps) {
-        loadingText.textContent = step.text;
-        await new Promise(resolve => {
-            setTimeout(() => {
-                updateProgress(step.weight);
-                resolve();
-            }, 500);
-        });
-    }
-
-    try {
-        // Инициализация компонентов
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.ready();
-        }
-
-        await initializeVariables();
-        await fetchDataFromServer();
-        initializeMainPage();
-        
-        // Плавно скрываем экран загрузки
-        setTimeout(() => {
-            loadingScreen.classList.add('hidden');
-            setTimeout(() => {
-                loadingScreen.style.display = 'none';
-            }, 500);
-        }, 500);
-
-    } catch (error) {
-        console.error('Ошибка при инициализации:', error);
-        loadingText.textContent = 'ERROR...';
-    }
-}
 
 // Заменяем существующий обработчик DOMContentLoaded
 document.addEventListener('DOMContentLoaded', initializeApp);
