@@ -188,30 +188,58 @@ setInterval(updateBonusButtons, 5000);
 function initializeTasks() {
     console.log('Инициализация задач');
     
-    ['task1', 'task2', 'task3', 'task4'].forEach(taskId => {
-        const isCompleted = localStorage.getItem(`${taskId}Completed`) === 'true';
-        const taskElement = document.querySelector(`#${taskId}`);
+    const taskData = [
+        { id: 'task1', selector: '.task-item:nth-child(1)' },
+        { id: 'task2', selector: '.task-item:nth-child(2)' },
+        { id: 'task3', selector: '.task-item:nth-child(3)' },
+        { id: 'task4', selector: '.task-item:nth-child(4)' }
+    ];
+    
+    taskData.forEach(({ id, selector }) => {
+        const isCompleted = localStorage.getItem(`${id}Completed`) === 'true';
+        const taskElement = document.querySelector(selector);
         
         if (taskElement && isCompleted) {
             taskElement.classList.add('completed');
-            const button = document.getElementById(`${taskId}Button`);
+            
+            // Находим и стилизуем кружок
+            const circle = taskElement.querySelector('.task-circle');
+            if (circle) {
+                circle.style.backgroundColor = '#4CAF50';
+                circle.style.width = '24px';
+                circle.style.height = '24px';
+            }
+            
+            // Находим и отключаем кнопку
+            const button = taskElement.querySelector('.task-reward-button');
             if (button) {
                 button.disabled = true;
+                button.style.opacity = '0.5';
             }
         }
     });
 }
 
 function disableTaskButton(taskId) {
-    const taskElement = document.querySelector(`#${taskId}`);
-    const button = document.getElementById(`${taskId}Button`);
+    const taskElement = document.querySelector(`.task-item:nth-child(${parseInt(taskId.replace('task', ''))})`);
     
     if (taskElement) {
         taskElement.classList.add('completed');
-    }
-    
-    if (button) {
-        button.disabled = true;
+        
+        // Стилизуем кружок
+        const circle = taskElement.querySelector('.task-circle');
+        if (circle) {
+            circle.style.backgroundColor = '#4CAF50';
+            circle.style.width = '24px';
+            circle.style.height = '24px';
+        }
+        
+        // Отключаем кнопку
+        const button = taskElement.querySelector('.task-reward-button');
+        if (button) {
+            button.disabled = true;
+            button.style.opacity = '0.5';
+        }
     }
     
     localStorage.setItem(`${taskId}Completed`, 'true');
