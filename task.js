@@ -187,44 +187,40 @@ setInterval(updateBonusButtons, 5000);
 
 function initializeTasks() {
     console.log('Инициализация задач');
-    // Глобальная переменная для отслеживания состояния задания
-    let isTask1Completed = false;
-    isTask1Completed = localStorage.getItem('task1Completed') === 'true';
-    console.log('Состояние task1Completed:', isTask1Completed);
     
-    const task1Button = document.getElementById('task1Button');
-    if (task1Button) {
-        if (isTask1Completed) {
-            disableTask1Button(task1Button);
-        } else {
-            enableTask1Button(task1Button);
+    // Проверяем состояние каждой задачи и применяем соответствующие стили
+    ['task1', 'task2', 'task3', 'task4'].forEach(taskId => {
+        const isCompleted = localStorage.getItem(`${taskId}Completed`) === 'true';
+        const button = document.getElementById(`${taskId}Button`);
+        
+        if (button) {
+            if (isCompleted) {
+                button.disabled = true;
+                button.parentElement.classList.add('completed');
+            } else {
+                button.disabled = false;
+                button.parentElement.classList.remove('completed');
+            }
         }
-    }
+    });
+}
 
-
-    let isTask2Completed = false;
-    isTask2Completed = localStorage.getItem('task2Completed') === 'true';
-    console.log('Состояние task2Completed:', isTask2Completed);
-    
-    const task2Button = document.getElementById('task2Button');
-    if (task2Button) {
-        if (isTask2Completed) {
-            disableTask2Button(task2Button);
-        } else {
-            enableTask2Button(task2Button);
-        }
+// Обновляем функции disable/enable для всех задач
+function disableTaskButton(taskId) {
+    const button = document.getElementById(`${taskId}Button`);
+    if (button) {
+        button.disabled = true;
+        button.parentElement.classList.add('completed');
+        localStorage.setItem(`${taskId}Style`, 'completed');
     }
-    let isTask4Completed = false;
-    isTask4Completed = localStorage.getItem('task4Completed') === 'true';
-    console.log('Состояние task4Completed:', isTask4Completed);
-    
-    const task4Button = document.getElementById('task4Button');
-    if (task4Button) {
-        if (isTask4Completed) {
-            disableTask4Button(task4Button);
-        } else {
-            enableTask4Button(task4Button);
-        }
+}
+
+function enableTaskButton(taskId) {
+    const button = document.getElementById(`${taskId}Button`);
+    if (button) {
+        button.disabled = false;
+        button.parentElement.classList.remove('completed');
+        localStorage.removeItem(`${taskId}Style`);
     }
 }
 
@@ -251,84 +247,44 @@ function handleTask1Click() {
     // Обновляем отображение задания
     const task1Button = document.getElementById('task1Button');
     if (task1Button) {
-        disableTask1Button(task1Button);
+        disableTaskButton('task1');
     }
     window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
     
     console.log('New balance:', currentBalance);
 }
-function disableTask1Button(button) {
-    button.disabled = true;
-    button.parentElement.classList.add('completed');
-    console.log('Кнопка задания деактивирована');
-}
 
-function enableTask1Button(button) {
-    button.disabled = false;
-    button.parentElement.classList.remove('completed');
-    console.log('Кнопка задания активирована');
-}
-
-
-
-
-    function handleTask2Click() {
-        console.log('Task 2 clicked');
-        
-        if (localStorage.getItem('task2Completed') === 'true') {
-            alert('Вы уже выполнили это задание!');
-            return;
-        }
-        
-        // Открываем ссылку на группу в Telegram
-        window.open('https://t.me/LITWIN_TAP_BOT', '_blank');
+function handleTask2Click() {
+    console.log('Task 2 clicked');
     
-        // Обновляем баланс
-        let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
-        currentBalance += 1000;
-        localStorage.setItem('balance', currentBalance.toString());
+    if (localStorage.getItem('task2Completed') === 'true') {
+        alert('Вы уже выполнили это задание!');
+        return;
+    }
     
-        // Отмечаем задание как выполненное
-        localStorage.setItem('task2Completed', 'true');
-        console.log('Задание отмечено как выполненное');
+    // Открываем ссылку на группу в Telegram
+    window.open('https://t.me/LITWIN_TAP_BOT', '_blank');
     
-        // Обновляем отображение задания
-        const task2Button = document.getElementById('task2Button');
-        if (task2Button) {
-            disableTask2Button(task2Button);
-        }
+    // Обновляем баланс
+    let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
+    currentBalance += 1000;
+    localStorage.setItem('balance', currentBalance.toString());
+    
+    // Отмечаем задание как выполненное
+    localStorage.setItem('task2Completed', 'true');
+    console.log('Задание отмечено как выполненное');
+    
+    // Обновляем отображение задания
+    const task2Button = document.getElementById('task2Button');
+    if (task2Button) {
+        disableTaskButton('task2');
+    }
 
     // Отправляем сообщение об обновлении баланса
     window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
     
     console.log('New balance:', currentBalance);
 }
-
-function disableTask2Button(button) {
-    button.disabled = true;
-    button.parentElement.classList.add('completed');
-    console.log('Кнопка задания деактивирована');
-}
-
-function enableTask2Button(button) {
-    button.disabled = false;
-    button.parentElement.classList.remove('completed');
-    console.log('Кнопка задания активирована');
-}
-
-// Вызываем функцию инициализации при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM загружен');
-    initializeTasks();
-});
-
-// Добавляем обработчик клика на кнопку задания
-document.addEventListener('DOMContentLoaded', function() {
-    const task1Button = document.getElementById('task1Button');
-    if (task1Button) {
-        task1Button.addEventListener('click', handleTask1Click);
-    }
-});
 
 function handleTask3Click() {
     const currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
@@ -344,9 +300,7 @@ function handleTask3Click() {
         window.postMessage({ type: 'updateBalance', balance: currentBalance + reward }, '*');
         
         // Отключаем кнопку
-        const button = document.getElementById('task3Button');
-        button.disabled = true;
-        button.style.opacity = '0.5';
+        disableTaskButton('task3');
         
         alert('Поздравляем! Вы получили награду за первое разбитое яйцо!');
     } else if (task3Completed) {
@@ -355,10 +309,6 @@ function handleTask3Click() {
         alert('Сначала нужно полностью разбить яйцо!');
     }
 }
-
-
-
-
 
 function handleTask4Click() {
     console.log('Task 4 clicked');
@@ -388,7 +338,7 @@ function handleTask4Click() {
         // Обновляем отображение задания
         const task4Button = document.getElementById('task4Button');
         if (task4Button) {
-            disableTask4Button(task4Button);
+            disableTaskButton('task4');
         }
 
         // Отправляем сообщение об обновлении баланса
@@ -400,20 +350,29 @@ function handleTask4Click() {
     }
 }
 
-function disableTask4Button(button) {
-    button.disabled = true;
-    button.parentElement.classList.add('completed');
-    console.log('Кнопка задания приглашения друга деактивирована');
-}
-
-function enableTask4Button(button) {
-    button.disabled = false;
-    button.parentElement.classList.remove('completed');
-    console.log('Кнопка задания приглашения друга активирована');
-}
-
-// Добавляем обработчик клика на кнопку задания при загрузке страницы
+// Вызываем функцию инициализации при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM загружен');
+    
+    // Инициализация задач
+    initializeTasks();
+    
+    // Добавляем обработчики для всех кнопок
+    const task1Button = document.getElementById('task1Button');
+    if (task1Button) {
+        task1Button.addEventListener('click', handleTask1Click);
+    }
+    
+    const task2Button = document.getElementById('task2Button');
+    if (task2Button) {
+        task2Button.addEventListener('click', handleTask2Click);
+    }
+    
+    const task3Button = document.getElementById('task3Button');
+    if (task3Button) {
+        task3Button.addEventListener('click', handleTask3Click);
+    }
+    
     const task4Button = document.getElementById('task4Button');
     if (task4Button) {
         task4Button.addEventListener('click', handleTask4Click);

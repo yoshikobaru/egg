@@ -245,3 +245,13 @@ body {
     height: 24px;
     margin-bottom: 5px;
 }
+
+.task-item.completed {
+    opacity: 0.7;
+    background-color: rgba(0, 255, 0, 0.2);
+    pointer-events: none;
+}
+
+.task-item.completed button {
+    cursor: not-allowed;
+}
