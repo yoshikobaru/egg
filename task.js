@@ -202,19 +202,16 @@ function initializeTasks() {
         if (taskElement && isCompleted) {
             taskElement.classList.add('completed');
             
-            // Находим и стилизуем кружок
             const circle = taskElement.querySelector('.task-circle');
             if (circle) {
                 circle.style.backgroundColor = '#4CAF50';
-                circle.style.width = '24px';
-                circle.style.height = '24px';
             }
             
-            // Находим и отключаем кнопку
             const button = taskElement.querySelector('.task-reward-button');
             if (button) {
                 button.disabled = true;
                 button.style.opacity = '0.5';
+                button.style.pointerEvents = 'none';
             }
         }
     });
@@ -226,19 +223,16 @@ function disableTaskButton(taskId) {
     if (taskElement) {
         taskElement.classList.add('completed');
         
-        // Стилизуем кружок
         const circle = taskElement.querySelector('.task-circle');
         if (circle) {
             circle.style.backgroundColor = '#4CAF50';
-            circle.style.width = '24px';
-            circle.style.height = '24px';
         }
         
-        // Отключаем кнопку
         const button = taskElement.querySelector('.task-reward-button');
         if (button) {
             button.disabled = true;
             button.style.opacity = '0.5';
+            button.style.pointerEvents = 'none';
         }
     }
     
