@@ -188,66 +188,42 @@ setInterval(updateBonusButtons, 5000);
 function initializeTasks() {
     console.log('Инициализация задач');
     
-    const taskData = [
-        { id: 'task1', selector: '.task-item:nth-child(1)' },
-        { id: 'task2', selector: '.task-item:nth-child(2)' },
-        { id: 'task3', selector: '.task-item:nth-child(3)' },
-        { id: 'task4', selector: '.task-item:nth-child(4)' }
-    ];
-    
-    taskData.forEach(({ id, selector }) => {
-        const taskElement = document.querySelector(selector);
-        const isCompleted = localStorage.getItem(`${id}Completed`) === 'true';
+    ['task1', 'task2', 'task3', 'task4'].forEach(taskId => {
+        const isCompleted = localStorage.getItem(`${taskId}Completed`) === 'true';
+        const taskElement = document.querySelector(`#${taskId}`);
+        const circle = document.querySelector(`#${taskId} .task-circle`);
         
         if (taskElement && isCompleted) {
-            // Применяем сохранённые стили
             taskElement.classList.add('completed');
-            
-            const circle = taskElement.querySelector('.task-circle');
             if (circle) {
-                circle.style.backgroundColor = '#4CAF50';
+                circle.classList.add('completed-circle');
             }
-            
-            const button = taskElement.querySelector('.task-reward-button');
+            const button = document.getElementById(`${taskId}Button`);
             if (button) {
                 button.disabled = true;
-                button.style.opacity = '0.5';
-                button.style.pointerEvents = 'none';
-                button.classList.add('completed-button'); // Добавляем класс для стилизации
             }
         }
     });
 }
 
 function disableTaskButton(taskId) {
-    const taskElement = document.querySelector(`.task-item:nth-child(${parseInt(taskId.replace('task', ''))})`);
+    const taskElement = document.querySelector(`#${taskId}`);
+    const button = document.getElementById(`${taskId}Button`);
+    const circle = document.querySelector(`#${taskId} .task-circle`);
     
     if (taskElement) {
-        // Применяем и сохраняем состояние
         taskElement.classList.add('completed');
-        
-        const circle = taskElement.querySelector('.task-circle');
-        if (circle) {
-            circle.style.backgroundColor = '#4CAF50';
-        }
-        
-        const button = taskElement.querySelector('.task-reward-button');
-        if (button) {
-            button.disabled = true;
-            button.style.opacity = '0.5';
-            button.style.pointerEvents = 'none';
-            button.classList.add('completed-button');
-        }
-        
-        // Сохраняем состояние в localStorage
-        localStorage.setItem(`${taskId}Completed`, 'true');
-        localStorage.setItem(`${taskId}Style`, JSON.stringify({
-            completed: true,
-            circleColor: '#4CAF50',
-            buttonDisabled: true,
-            buttonOpacity: '0.5'
-        }));
     }
+    
+    if (button) {
+        button.disabled = true;
+    }
+    
+    if (circle) {
+        circle.classList.add('completed-circle');
+    }
+    
+    localStorage.setItem(`${taskId}Completed`, 'true');
 }
 
 function enableTaskButton(taskId) {
@@ -413,57 +389,3 @@ document.addEventListener('DOMContentLoaded', function() {
         task4Button.addEventListener('click', handleTask4Click);
     }
 });
-
-function updateTaskStyles() {
-    const taskStates = {
-        'task1': localStorage.getItem('task1Completed') === 'true',
-        'task2': localStorage.getItem('task2Completed') === 'true',
-        'task3': localStorage.getItem('task3Completed') === 'true',
-        'task4': localStorage.getItem('task4Completed') === 'true'
-    };
-
-    Object.entries(taskStates).forEach(([taskId, isCompleted]) => {
-        const taskElement = document.querySelector(`.task-item:nth-child(${parseInt(taskId.replace('task', ''))})`);
-        
-        if (taskElement && isCompleted) {
-            taskElement.classList.add('completed');
-            
-            // Обновляем стили кнопки
-            const button = taskElement.querySelector('.task-reward-button');
-            if (button) {
-                button.disabled = true;
-                button.textContent = 'Выполнено';
-            }
-            
-            // Обновляем стили круга
-            const circle = taskElement.querySelector('.task-circle');
-            if (circle) {
-                circle.style.backgroundColor = '#4CAF50';
-            }
-        }
-    });
-}
-
-// Добавляем вызов функции при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    // ... существующий код ...
-    updateTaskStyles();
-});
-
-// Модифицируем функцию disableTaskButton
-function disableTaskButton(taskId) {
-    const taskElement = document.querySelector(`.task-item:nth-child(${parseInt(taskId.replace('task', ''))})`);
-    
-    if (taskElement) {
-        taskElement.classList.add('completed');
-        
-        const button = taskElement.querySelector('.task-reward-button');
-        if (button) {
-            button.disabled = true;
-            button.textContent = 'Выполнено';
-        }
-        
-        localStorage.setItem(`${taskId}Completed`, 'true');
-        updateTaskStyles(); // Обновляем стили всех заданий
-    }
-}

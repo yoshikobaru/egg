@@ -223,6 +223,10 @@ h2 {
 .task-item.completed .task-name {
     color: rgba(255, 255, 255, 0.7);
 }
+.completed-circle {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+}
 
 .task-reward-button {
     display: flex;
