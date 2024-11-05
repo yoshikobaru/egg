@@ -4,7 +4,7 @@ const clicksToFill = 10;
 
 let lastExitTime, accumulatedCoins;
 let totalEarnedCoins;
-const progressLevels = [100000, 500000, 1000000, 5000000, 10000000];
+const progressLevels = [100000, 200000, 500000, 1000000, 2000000, 5000000, 10000000];
 
 let isOnline = true;
 let syncTimer;
