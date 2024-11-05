@@ -354,7 +354,17 @@ function applyTheme(theme) {
         
         initializeTasks();
         
-        ['task1', 'task2', 'task3', 'task4'].forEach(taskId => {
+        const task1Button = document.getElementById('task1Button');
+        if (task1Button) {
+            task1Button.addEventListener('click', handleTask1Click);
+        }
+        
+        const task2Button = document.getElementById('task2Button');
+        if (task2Button) {
+            task2Button.addEventListener('click', handleTask2Click);
+        }
+        
+        ['task3', 'task4'].forEach(taskId => {
             const button = document.getElementById(`${taskId}Button`);
             if (button) {
                 button.addEventListener('click', window[`handle${taskId.charAt(0).toUpperCase() + taskId.slice(1)}Click`]);
