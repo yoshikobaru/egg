@@ -381,7 +381,7 @@ function updateProgress() {
     currentLevel = 1;
     for (let i = 0; i < progressLevels.length; i++) {
         if (totalEarnedCoins >= progressLevels[i]) {
-            currentLevel = i + 2;
+            currentLevel = i + 1;
         } else {
             break;
         }
