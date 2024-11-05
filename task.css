@@ -6,7 +6,7 @@
 
 .tasks-page {
     padding: 20px;
-    background: linear-gradient(180deg, #90BEBB 5%, #C3DEC9 45%, #FFFFFF 150%);
+    background: linear-gradient(180deg, #90BEBB 25%, #C3DEC9 45%, #FFFFFF 75%);
     color: white;
     min-height: 125vh;
     box-sizing: border-box;
