@@ -76,7 +76,7 @@ function displayReferredFriends(friends) {
                 const isRewardClaimed = localStorage.getItem(rewardKey) === 'claimed';
                 
                 friendItem.innerHTML = `
-                    <span class="friend-name">${index + 1} ${friendName}</span>
+                    <span class="friend-name">${index + 1}. ${friendName}</span>
                     <button class="friend-reward-button" onclick="claimFriendReward('${friend.id}')"
                             ${isRewardClaimed ? 'disabled' : ''}>
                         ${isRewardClaimed ? 'Награда получена' : 'Забрать награду'}

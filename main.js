@@ -379,6 +379,7 @@ function syncUserDataWithServer(telegramId, username) {
 }
 
 function updateProgress() {
+    // Находим текущий уровень
     currentLevel = 1;
     for (let i = 0; i < progressLevels.length; i++) {
         if (totalEarnedCoins >= progressLevels[i]) {
@@ -388,15 +389,24 @@ function updateProgress() {
         }
     }
 
+    // Вычисляем процент прогресса для текущего уровня
     let progressPercentage;
     if (currentLevel > progressLevels.length) {
+        // Если достигнут максимальный уровень
         progressPercentage = 100;
     } else {
+        // Вычисляем прогресс между текущим и следующим уровнем
         const levelStart = currentLevel > 1 ? progressLevels[currentLevel - 2] : 0;
         const levelEnd = progressLevels[currentLevel - 1];
-        progressPercentage = ((totalEarnedCoins - levelStart) / (levelEnd - levelStart)) * 100;
+        const progress = totalEarnedCoins - levelStart;
+        const levelRange = levelEnd - levelStart;
+        progressPercentage = (progress / levelRange) * 100;
+        
+        // Ограничиваем процент от 0 до 100
+        progressPercentage = Math.max(0, Math.min(100, progressPercentage));
     }
 
+    // Обновляем визуальный прогресс-бар
     progressBar.style.width = `${progressPercentage}%`;
     
     const eggIndex = Math.floor(progressPercentage / 20);
@@ -412,6 +422,7 @@ function updateProgress() {
         levelDisplay.textContent = `Breaks ${currentLevel}`;
     }
 
+    // Сохраняем значения
     localStorage.setItem('totalEarnedCoins', totalEarnedCoins.toString());
     localStorage.setItem('currentLevel', currentLevel.toString());
     
@@ -652,7 +663,7 @@ setInterval(regenerateEnergy, 5000);
 
 function calculateOfflineEarnings() {
     const currentTime = Date.now();
-    const timeDiff = (currentTime - lastExitTime) / 1000; // разница в секундах
+    const timeDiff = (currentTime - lastExitTime) / 1000; // разница в с��кундах
     const maxOfflineTime = 5 * 60 * 60; // 5 часов в секундах
 
     console.log('Расчет офлайн-заработка: timeDiff =', timeDiff, 'секуд');
@@ -857,7 +868,7 @@ function updateCanImage(index) {
     const canElement = document.getElementById('can');
     if (canElement) {
         const newCanSrc = canImages[index];
-        console.log('Новый источник изображения банки:', newCanSrc);
+        console.log('��овый источник изображения банки:', newCanSrc);
         canElement.src = newCanSrc;
         updateAppTheme(newCanSrc);
         updateFriendsCanImage(index);
