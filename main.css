@@ -49,8 +49,8 @@ body {
     max-width: 100%;
 }
 .footer-icon {
-    width: 24px;
-    height: 24px;
+    width: 36px;
+    height: 32px;
     object-fit: contain;
     vertical-align: middle;
     margin-bottom: 4px;
@@ -304,8 +304,8 @@ body {
 }
 
 .footer-icon {
-    width: 24px; /* Уменьшаем размер иконок */
-    height: 24px;
+    width: 36px; /* Уменьшаем размер иконок */
+    height: 32px;
     object-fit: contain;
     margin-bottom: 2px; /* Уменьшаем отступ под иконкой */
 }
@@ -557,8 +557,8 @@ body {
 }
 
 .footer-icon {
-    width: 40px; /* Увеличиваем азмер иконок еще больше */
-    height: 40px; /* Увеличиваем размер иконок еще больше */
+    width: 36px; /* Увеличиваем азмер иконок еще больше */
+    height: 32px; /* Увеличиваем размер иконок еще больше */
     object-fit: contain;
     margin-bottom: 4px;
 }
