@@ -966,6 +966,30 @@ document.addEventListener('DOMContentLoaded', initializeFriendsPageFromMain);
 document.addEventListener('DOMContentLoaded', fetchDataFromServer);
 
 // Добавьте в начало файла main.js
+async function preloadImages() {
+    const imagesToPreload = [
+        'assets/egg.png',
+        'assets/polomka3.png', // Добавьте изображение для экрана загрузки
+        ...canImages,
+        ...eggImages,
+        'assets/eggCoin.png',
+        'assets/addFriend.png',
+        'assets/twobankamango.png',
+        'assets/twobankablueberry.png'
+    ];
+
+    const imagePromises = imagesToPreload.map(src => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = src;
+        });
+    });
+
+    return Promise.all(imagePromises);
+}
+
 async function initializeApp() {
     const loadingScreen = document.getElementById('loading-screen');
     const loadingBar = document.getElementById('loadingBar');
@@ -973,39 +997,50 @@ async function initializeApp() {
     let progress = 0;
 
     try {
-        // Имитация загрузки с реальными шагами
+        // Начинаем параллельную инициализацию всех компонентов
+        const initPromises = [
+            preloadImages(),
+            initializeVariables(),
+            fetchDataFromServer(),
+            initializeTelegramWebApp()
+        ];
+
         const loadingSteps = [
             { text: 'LOADING...', weight: 30 },
             { text: 'LOADING...', weight: 30 },
             { text: 'LOADING...', weight: 40 }
         ];
 
-        for (const step of loadingSteps) {
-            await new Promise(resolve => setTimeout(resolve, 500)); // Уменьшаем задержку
-            progress += step.weight;
-            loadingBar.style.width = `${progress}%`;
-            loadingText.textContent = step.text;
-        }
+        // Запускаем все промисы параллельно
+        const results = await Promise.allSettled(initPromises.map(async (promise, index) => {
+            try {
+                const result = await promise;
+                progress += loadingSteps[index]?.weight || 0;
+                loadingBar.style.width = `${progress}%`;
+                loadingText.textContent = loadingSteps[index]?.text || 'Загрузка...';
+                return result;
+            } catch (error) {
+                console.error('Ошибка инициализации:', error);
+                return null;
+            }
+        }));
 
-        // Важно: убедимся, что все ресурсы загружены
-        await Promise.all([
-            // Добавьте сюда другие промисы загрузки, если они есть
-            new Promise(resolve => setTimeout(resolve, 500)) // Минимальная задержка
-        ]);
+        // Инициализируем остальные компоненты
+        initializeMainPage();
+        initializeFriendsPageFromMain();
+        startOfflineEarningInterval();
+        startEnergyRegenInterval();
 
-        // Скрываем экран загрузки
+        // Плавно скрываем экран загрузки
         loadingScreen.style.opacity = '0';
-        loadingScreen.style.transition = 'opacity 0.5s ease-out';
-        
         setTimeout(() => {
             loadingScreen.style.display = 'none';
-            document.body.style.overflow = ''; // Разблокируем прокрутку
+            document.body.style.overflow = '';
         }, 500);
 
     } catch (error) {
-        console.error('Ошибка при инициализации:', error);
-        loadingText.textContent = 'ERROR...';
-        // Добавим автоматическое скрытие экрана загрузки даже при ошибке через 2 секунды
+        console.error('Критическая ошибка при инициализации:', error);
+        loadingText.textContent = 'Ошибка загрузки...';
         setTimeout(() => {
             loadingScreen.style.display = 'none';
         }, 2000);
