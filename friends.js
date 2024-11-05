@@ -60,7 +60,6 @@ function getReferredFriends() {
 function displayReferredFriends(friends) {
     const friendsList = document.getElementById('friendsList');
     if (friendsList) {
-
         localStorage.setItem('invitedFriends', friends.length);
         console.log('Обновлено количество приглашенных друзей в localStorage:', friends.length);
         
@@ -68,7 +67,7 @@ function displayReferredFriends(friends) {
         if (friends.length === 0) {
             friendsList.innerHTML = '<p>У вас пока нет приглашенных друзей.</p>';
         } else {
-            friends.forEach(friend => {
+            friends.forEach((friend, index) => {
                 const friendItem = document.createElement('div');
                 friendItem.className = 'friend-item';
                 
@@ -77,7 +76,7 @@ function displayReferredFriends(friends) {
                 const isRewardClaimed = localStorage.getItem(rewardKey) === 'claimed';
                 
                 friendItem.innerHTML = `
-                    <span class="friend-name">${friendName}</span>
+                    <span class="friend-name">#${index + 1} ${friendName}</span>
                     <button class="friend-reward-button" onclick="claimFriendReward('${friend.id}')"
                             ${isRewardClaimed ? 'disabled' : ''}>
                         ${isRewardClaimed ? 'Награда получена' : 'Забрать награду'}
@@ -281,7 +280,7 @@ function claimFriendReward(friendId) {
         });
     }
 window.addEventListener('message', function(event) {
-    console.log('��лучено сообщение:', event.data);
+    console.log('лучено сообщение:', event.data);
     if (event.data.type === 'updateCan') {
         const canSrc = event.data.canSrc;
         console.log('Получен новый источник изображения банки:', canSrc);
