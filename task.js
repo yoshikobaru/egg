@@ -37,7 +37,9 @@ function applyTheme(theme) {
         const hoursPassedSinceLastClaim = (now - lastClaimTime) / (1000 * 60 * 60);
         
         if (hoursPassedSinceLastClaim >= 24) {
-            lastClaimedIndex = -1;
+            if (lastClaimedIndex >= bonusValues.length - 1) {
+                lastClaimedIndex = -1;
+            }
             lastClaimTime = 0;
             saveBonusState();
         }
@@ -45,7 +47,7 @@ function applyTheme(theme) {
         bonusButtons.forEach((button, index) => {
             if (index === lastClaimedIndex && hoursPassedSinceLastClaim < 24) {
                 setButtonState(button, 'claimed');
-            } else if (index === 0 && (lastClaimedIndex === -1 || hoursPassedSinceLastClaim >= 24)) {
+            } else if (index === lastClaimedIndex + 1 && (lastClaimedIndex === -1 || hoursPassedSinceLastClaim >= 24)) {
                 setButtonState(button, 'unlocked');
             } else {
                 setButtonState(button, 'locked');
@@ -106,13 +108,10 @@ function applyTheme(theme) {
 
         bonusButtons.forEach((button, index) => {
             if (index === lastClaimedIndex) {
-                // Если этот бонус был получен
                 setButtonState(button, 'claimed');
-            } else if (index === 0 && canClaimBonus) {
-                // Первая кнопка доступна после истечения кулдауна
+            } else if (index === lastClaimedIndex + 1 && canClaimBonus) {
                 setButtonState(button, 'unlocked');
             } else {
-                // Все остальные кнопки заблокированы
                 setButtonState(button, 'locked');
             }
         });
@@ -132,12 +131,10 @@ function applyTheme(theme) {
     }
 
     function updateBonusTimer(seconds) {
-        // Сохраняем время в localStorage без создания видимого элемента
         localStorage.setItem('bonusTimeRemaining', seconds);
     }
 
     function hideBonusTimer() {
-        // Просто очищаем сохраненное время
         localStorage.removeItem('bonusTimeRemaining');
     }
 
@@ -158,25 +155,21 @@ function applyTheme(theme) {
         });
     }
 
-    // Инициализация при загрузке страницы
     document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM загружен, инициализация...');
         initializeBonusSystem();
     });
 })();
 
-// Добавьте эту функцию для сброса бонусов (например, раз в день)
 function resetBonuses() {
     localStorage.setItem('lastClaimedIndex', '-1');
     localStorage.setItem('lastClaimTime', '0');
     updateBonusButtons();
 }
 
-// Вызывайте эту функцию при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     initializeBonusSystem();
     
-    // Проверка и сброс бонусов раз в день
     const lastResetDate = localStorage.getItem('lastResetDate');
     const currentDate = new Date().toDateString();
     if (lastResetDate !== currentDate) {
@@ -185,13 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Обновляем состояние кнопок каждую секунду
 setInterval(updateBonusButtons, 1000);
-
-
-
-
-
 
 function initializeTasks() {
     console.log('Инициализация задач');
@@ -251,19 +238,15 @@ function handleTask1Click() {
         return;
     }
     
-    // Открываем ссылу на группу в Telegram
     window.open('https://t.me/litwin_community', '_blank');
 
-    // Обновляем баланс
     let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
     currentBalance += 1000;
     localStorage.setItem('balance', currentBalance.toString());
 
-    // Отмечаем задание как выполненное
     localStorage.setItem('task1Completed', 'true');
     console.log('Задание отмечено как выполненное');
 
-    // Обновляем отображение задания
     const task1Button = document.getElementById('task1Button');
     if (task1Button) {
         disableTaskButton('task1');
@@ -281,25 +264,20 @@ function handleTask2Click() {
         return;
     }
     
-    // Открываем ссылку на группу в Telegram
     window.open('https://t.me/LITWIN_TAP_BOT', '_blank');
-    
-    // Обновляем баланс
+
     let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
     currentBalance += 1000;
     localStorage.setItem('balance', currentBalance.toString());
-    
-    // Отмечаем задание как выполненное
+
     localStorage.setItem('task2Completed', 'true');
     console.log('Задание отмечено как выполненное');
-    
-    // Обновляем отображение задания
+
     const task2Button = document.getElementById('task2Button');
     if (task2Button) {
         disableTaskButton('task2');
     }
 
-    // Отправляем сообщение об обновлении баланса
     window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
     
     console.log('New balance:', currentBalance);
@@ -309,16 +287,14 @@ function handleTask3Click() {
     const currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
     const task3Completed = localStorage.getItem('task3Completed');
     
-    if (!task3Completed && currentLevel >= 2) { // Проверяем, что яйцо было сломано хотя бы раз (уровень 2 или выше)
+    if (!task3Completed && currentLevel >= 2) {
         const reward = 1000;
         const currentBalance = parseInt(localStorage.getItem('balance')) || 0;
         localStorage.setItem('balance', (currentBalance + reward).toString());
         localStorage.setItem('task3Completed', 'true');
         
-        // Обновляем отображене баланса
         window.postMessage({ type: 'updateBalance', balance: currentBalance + reward }, '*');
         
-        // Отключаем кнопку
         disableTaskButton('task3');
         
         alert('Поздравляем! Вы получили награду за первое разбитое яйцо!');
@@ -332,7 +308,6 @@ function handleTask3Click() {
 function handleTask4Click() {
     console.log('Task 4 clicked');
     
-    // Проверяем состояние задания
     const isTask4Completed = localStorage.getItem('task4Completed') === 'true';
     
     if (isTask4Completed) {
@@ -340,27 +315,22 @@ function handleTask4Click() {
         return;
     }
     
-    // Получаем количество приглашенных друзей из localStorage
     const invitedFriends = parseInt(localStorage.getItem('invitedFriends')) || 0;
     console.log('Количество приглашенных друзей:', invitedFriends);
     
     if (invitedFriends > 0) {
-        // Обновляем баланс
         let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
-        currentBalance += 2000; // Награда за приглашение друга
+        currentBalance += 2000;
         localStorage.setItem('balance', currentBalance.toString());
 
-        // Отмечае задание как выполненное
         localStorage.setItem('task4Completed', 'true');
         console.log('Задание риглашения друга отмечено как ыполненное');
 
-        // Обновляем отображение задания
         const task4Button = document.getElementById('task4Button');
         if (task4Button) {
             disableTaskButton('task4');
         }
 
-        // Отправляем сообщение об обновлении баланса
         window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
         
         alert('Поздравляем! Вы получили награду за приглашение друга!');
@@ -369,14 +339,11 @@ function handleTask4Click() {
     }
 }
 
-// Вызываем функцию инициализации при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM загружен');
     
-    // Инициализация задач
     initializeTasks();
     
-    // Добавляем обработчики для всех кнопок
     const task1Button = document.getElementById('task1Button');
     if (task1Button) {
         task1Button.addEventListener('click', handleTask1Click);
