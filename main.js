@@ -198,12 +198,11 @@ function initializeMainPage() {
     bubblesContainer = document.querySelector('.bubbles');
     const tapToBreakButton = document.getElementById('tapToBreakButton');
 
-
     console.log('Найденные элементы:', {
         progressBar, balanceElement, canElement, energyElement, bubblesContainer, tapToBreakButton
     });
 
-    if (!progressBar || !balanceElement || !canElement || !energyElement || !bubblesContainer) {
+    if (!progressBar || !balanceElement || !canElement || !energyElement || !bubblesContainer || !tapToBreakButton) {
         console.error('Один или несколько необходимых элементов не найдены');
         return;
     }
@@ -227,7 +226,6 @@ function initializeMainPage() {
 
     canElement.addEventListener('click', handleCanClick);
     tapToBreakButton.addEventListener('click', handleCanClick);
-
 
     document.querySelectorAll('.footer-btn').forEach(btn => {
         btn.addEventListener('click', handleFooterButtonClick);
@@ -389,7 +387,7 @@ function updateProgress() {
         }
     }
 
-    // Вычисляем процент прогресса для текущего уровня
+    // Вычисляем процент прогресса дл�� текущего уровня
     let progressPercentage;
     if (currentLevel > progressLevels.length) {
         // Если достигнут максимальный уровень
@@ -512,6 +510,8 @@ function createMango() {
 }
 
 function handleCanClick() {
+    console.log('handleCanClick вызван'); // Добавляем отладочный вывод
+    
     if (energy > 0) {
         canElement.classList.add('shake');
         setTimeout(() => canElement.classList.remove('shake'), 200);
@@ -521,6 +521,7 @@ function handleCanClick() {
 
         console.log('Selected can:', canSrc);
 
+        // Создаем эффекты в зависимости от типа банки
         if (canSrc === 'assets/bankamango.png') {
             console.log('Creating mangoes and coconuts');
             for (let i = 0; i < 5; i++) {
@@ -546,27 +547,24 @@ function handleCanClick() {
         }
 
         showTapProfit();
+        updateBalance(tapProfit);
+        updateTotalEarnedCoins(tapProfit);
+        updateProgress();
 
-updateBalance(tapProfit);
-updateTotalEarnedCoins(tapProfit);
+        energy = Math.max(0, energy - 1);
+        localStorage.setItem('energy', energy.toString());
+        updateEnergyDisplay();
 
-updateProgress();
-
-energy = Math.max(0, energy - 1);
-localStorage.setItem('energy', energy.toString());
-updateEnergyDisplay();
-
-        // Отменяем предыдущий таймер, если он существует
         if (syncTimer) {
             clearTimeout(syncTimer);
         }
 
-        // Устанавливаем новый таймер на синхронизацию
         syncTimer = setTimeout(() => {
             syncDataWithServer();
-        }, 3000); // 5 секунд задержки
+        }, 3000);
     }
 }
+
 function updateTotalEarnedCoins(amount) {
     totalEarnedCoins = parseInt(localStorage.getItem('totalEarnedCoins')) || 0;
     totalEarnedCoins += amount;
@@ -663,7 +661,7 @@ setInterval(regenerateEnergy, 5000);
 
 function calculateOfflineEarnings() {
     const currentTime = Date.now();
-    const timeDiff = (currentTime - lastExitTime) / 1000; // разница в с��кундах
+    const timeDiff = (currentTime - lastExitTime) / 1000; // разница в скундах
     const maxOfflineTime = 5 * 60 * 60; // 5 часов в секундах
 
     console.log('Расчет офлайн-заработка: timeDiff =', timeDiff, 'секуд');
@@ -868,7 +866,7 @@ function updateCanImage(index) {
     const canElement = document.getElementById('can');
     if (canElement) {
         const newCanSrc = canImages[index];
-        console.log('��овый источник изображения банки:', newCanSrc);
+        console.log('овый источник изображения банки:', newCanSrc);
         canElement.src = newCanSrc;
         updateAppTheme(newCanSrc);
         updateFriendsCanImage(index);

@@ -43,6 +43,7 @@ body {
     justify-content: space-between; 
     padding-bottom: 80px; 
      /* Удалим это свойство */
+    pointer-events: auto;
 }
 
 .container > * {
@@ -164,6 +165,7 @@ body {
     align-items: flex-end; 
     overflow: visible;
     flex-grow: 1; 
+    pointer-events: none;
 }
 .can-background {
     position: absolute;
@@ -174,8 +176,9 @@ body {
     transform: translateY(-30px);
 }
 .can {
-    width: 100%;  /* Установите желаемую ширину */
-    height: auto;  /* Это позволит сохранить пропорции изображения */
+    pointer-events: auto;
+    width: 100%;
+    height: auto;
     position: relative;
     z-index: 1;
     transition: transform 0.1s;
@@ -201,6 +204,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 
 .bubble {
@@ -578,7 +582,7 @@ body {
     bottom: 0;
     left: 0;
     width: 100%;
-    z-index: -1; /* Помещаем изображение под контентом */
+    z-index: 2; /* Помещаем изображение под контентом */
 }
 
 .background-image img {
@@ -621,7 +625,7 @@ body {
 }
 
 .background-image {
-    z-index: -1; /* Убедимся, что это изображение находится над ним фоновым изображением */
+    z-index: 2; /* Убедимся, что это изображение находится над ним фоновым изображением */
 }
 
 body {
@@ -641,14 +645,16 @@ body {
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
-    z-index: 10;
+    z-index: 2000; /* Увеличиваем z-index */
+    pointer-events: auto;
     box-shadow: 
         0 4px 6px rgba(0, 0, 0, 0.1),
         0 -2px 4px rgba(255, 255, 255, 0.5) inset,
         0 2px 4px rgba(0, 0, 0, 0.1) inset;
     transition: all 0.3s ease;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-    background-image: linear-gradient(to bottom, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    user-select: none; /* Предотвращаем выделение текста */
+    -webkit-tap-highlight-color: transparent; /* Убираем подсветку при тапе на мобильных */
 }
 
 .tap-to-break-button:hover {
@@ -687,6 +693,7 @@ body {
     right: 0;
     bottom: 0;
     overflow: hidden;
+    pointer-events: auto;
 }
 
 /* Стиль для страниц с прокруткой */
@@ -778,4 +785,38 @@ body {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+/* Обновляем стили для container и кнопки */
+.container {
+    position: relative;
+    text-align: center;
+    padding-bottom: 60px;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    padding-bottom: 80px;
+    pointer-events: auto; /* Меняем с none на auto */
+}
+
+/* Обновляем стили для main-page */
+.main-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    pointer-events: auto;
+}
+
+/* Обновляем стили для background-image */
+.background-image,
+.background-image-bottom {
+    pointer-events: none;
 }

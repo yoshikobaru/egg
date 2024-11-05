@@ -6,7 +6,7 @@
 
 .tasks-page {
     padding: 20px;
-    background: linear-gradient(180deg, #B0D8D5 100%, #D8EBE0 100%, #FFFFFF 100%);
+    background: linear-gradient(180deg, #B0D8D5 0%, #D8EBE0 50%, #FFFFFF 100%);
     color: white;
     min-height: 125vh;
     box-sizing: border-box;
@@ -298,4 +298,48 @@ h2 {
     pointer-events: none !important;
     cursor: default !important;
 }
+
+.check-button {
+    background: linear-gradient(180deg, #7FD6CD 0%, #4EBEB2 100%);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 100px;
+    width: 80%;
+    max-width: 200px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2),
+                inset 0 -2px 2px rgba(0, 0, 0, 0.3),
+                inset 0 2px 2px rgba(255, 255, 255, 0.5);
+    z-index: 3;
+    position: fixed;
+    bottom: 100px;
+    text-shadow:  
+    2px 4px 6px rgba(0, 0, 0, 0.5);
+    left: 50%;
+    transform: translateX(-50%);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.check-button:active {
+    transform: translateX(-50%) translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.1),
+                inset 0 1px 1px rgba(255, 255, 255, 0.3);
+    background: linear-gradient(180deg, #6EC5BC 0%, #45ADA1 100%);
+}
+
+.check-button:hover {
+    background-color: #346673;
+}
+
 

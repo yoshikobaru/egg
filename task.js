@@ -155,10 +155,234 @@ function applyTheme(theme) {
         });
     }
 
+    function initializeTasks() {
+        console.log('Инициализация задач');
+        
+        ['task1', 'task2', 'task3', 'task4'].forEach(taskId => {
+            const isCompleted = localStorage.getItem(`${taskId}Completed`) === 'true';
+            const taskElement = document.querySelector(`#${taskId}`);
+            const circle = document.querySelector(`#${taskId} .task-circle`);
+            
+            if (taskElement && isCompleted) {
+                taskElement.classList.add('completed');
+                if (circle) {
+                    circle.classList.add('completed-circle');
+                }
+                const button = document.getElementById(`${taskId}Button`);
+                if (button) {
+                    button.disabled = true;
+                }
+            }
+        });
+    }
+
+    function disableTaskButton(taskId) {
+        const taskElement = document.querySelector(`#${taskId}`);
+        const button = document.getElementById(`${taskId}Button`);
+        const circle = document.querySelector(`#${taskId} .task-circle`);
+        
+        if (taskElement) {
+            taskElement.classList.add('completed');
+        }
+        
+        if (button) {
+            button.disabled = true;
+            button.classList.add('completed-button');
+        }
+        
+        if (circle) {
+            circle.classList.add('completed-circle');
+        }
+        
+        localStorage.setItem(`${taskId}Completed`, 'true');
+    }
+
+    function enableTaskButton(taskId) {
+        const button = document.getElementById(`${taskId}Button`);
+        if (button) {
+            button.disabled = false;
+            button.parentElement.classList.remove('completed');
+            localStorage.removeItem(`${taskId}Style`);
+        }
+    }
+
+    function handleTask1Click() {
+        console.log('Task 1 clicked');
+        
+        if (localStorage.getItem('task1Completed') === 'true') {
+            alert('Вы уже выолнили это задание!');
+            return;
+        }
+        
+        window.open('https://t.me/litwin_community', '_blank');
+
+        let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
+        currentBalance += 1000;
+        localStorage.setItem('balance', currentBalance.toString());
+
+        localStorage.setItem('task1Completed', 'true');
+        console.log('Задание отмечено как выполненное');
+
+        const task1Button = document.getElementById('task1Button');
+        if (task1Button) {
+            disableTaskButton('task1');
+        }
+        window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
+        
+        console.log('New balance:', currentBalance);
+    }
+
+    function handleTask2Click() {
+        console.log('Task 2 clicked');
+        
+        if (localStorage.getItem('task2Completed') === 'true') {
+            alert('Вы уже выполнили это задание!');
+            return;
+        }
+        
+        window.open('https://t.me/LITWIN_TAP_BOT', '_blank');
+
+        let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
+        currentBalance += 1000;
+        localStorage.setItem('balance', currentBalance.toString());
+
+        localStorage.setItem('task2Completed', 'true');
+        console.log('Задание отмечено как выполненное');
+
+        const task2Button = document.getElementById('task2Button');
+        if (task2Button) {
+            disableTaskButton('task2');
+        }
+
+        window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
+        
+        console.log('New balance:', currentBalance);
+    }
+
+    function handleTask3Click() {
+        const currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
+        const task3Completed = localStorage.getItem('task3Completed');
+        
+        if (!task3Completed && currentLevel >= 2) {
+            const reward = 1000;
+            const currentBalance = parseInt(localStorage.getItem('balance')) || 0;
+            localStorage.setItem('balance', (currentBalance + reward).toString());
+            localStorage.setItem('task3Completed', 'true');
+            
+            window.postMessage({ type: 'updateBalance', balance: currentBalance + reward }, '*');
+            
+            disableTaskButton('task3');
+            
+            alert('Поздравляем! Вы получили награду за первое разбитое яйцо!');
+        } else if (task3Completed) {
+            alert('Вы уже выполнили это задание!');
+        } else {
+            alert('Сначала нужно полностью разбить яйцо!');
+        }
+    }
+
+    function handleTask4Click() {
+        console.log('Task 4 clicked');
+        
+        const isTask4Completed = localStorage.getItem('task4Completed') === 'true';
+        
+        if (isTask4Completed) {
+            alert('Вы уже выполнили это задание!');
+            return;
+        }
+        
+        const invitedFriends = parseInt(localStorage.getItem('invitedFriends')) || 0;
+        console.log('Количество приглашенных друзей:', invitedFriends);
+        
+        if (invitedFriends > 0) {
+            let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
+            currentBalance += 2000;
+            localStorage.setItem('balance', currentBalance.toString());
+
+            localStorage.setItem('task4Completed', 'true');
+            console.log('Задание риглашения друга отмечено как ыполненное');
+
+            const task4Button = document.getElementById('task4Button');
+            if (task4Button) {
+                disableTaskButton('task4');
+            }
+
+            window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
+            
+            alert('Поздравляем! Вы получили награду за приглашение друга!');
+        } else {
+            alert('Сначала пригласите друга!');
+        }
+    }
+
+    function checkAllTasks() {
+        console.log('Проверка всех заданий');
+        
+        // Проверяем подписку на группу
+        if (localStorage.getItem('task1Completed') === 'true') {
+            console.log('Задание 1 выполнено');
+            disableTaskButton('task1');
+        }
+        
+        // Проверяем подписку на бота
+        if (localStorage.getItem('task2Completed') === 'true') {
+            console.log('Задание 2 выполнено');
+            disableTaskButton('task2');
+        }
+        
+        // Проверяем разбитие яйца
+        const currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
+        if (currentLevel >= 2 || localStorage.getItem('task3Completed') === 'true') {
+            console.log('Задание 3 выполнено');
+            disableTaskButton('task3');
+            localStorage.setItem('task3Completed', 'true');
+        }
+        
+        // Проверяем приглашение друга
+        const invitedFriends = parseInt(localStorage.getItem('invitedFriends')) || 0;
+        if (invitedFriends > 0 || localStorage.getItem('task4Completed') === 'true') {
+            console.log('Задание 4 выполнено');
+            disableTaskButton('task4');
+            localStorage.setItem('task4Completed', 'true');
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('DOM загружен, инициализация...');
+        console.log('DOM загружен');
+        
         initializeBonusSystem();
+        
+        initializeTasks();
+        
+        ['task1', 'task2', 'task3', 'task4'].forEach(taskId => {
+            const button = document.getElementById(`${taskId}Button`);
+            if (button) {
+                button.addEventListener('click', window[`handle${taskId.charAt(0).toUpperCase() + taskId.slice(1)}Click`]);
+            }
+        });
+        
+        const checkButton = document.getElementById('checkTasksButton');
+        if (checkButton) {
+            console.log('Кнопка CHECK найдена');
+            checkButton.addEventListener('click', function() {
+                console.log('Кнопка CHECK нажата');
+                checkAllTasks();
+            });
+        } else {
+            console.log('Кнопка CHECK не найдена');
+        }
+        
+        checkAllTasks();
+        
+        const lastResetDate = localStorage.getItem('lastResetDate');
+        const currentDate = new Date().toDateString();
+        if (lastResetDate !== currentDate) {
+            resetBonuses();
+            localStorage.setItem('lastResetDate', currentDate);
+        }
     });
+
+    setInterval(updateBonusButtons, 1000);
 })();
 
 function resetBonuses() {
@@ -166,201 +390,3 @@ function resetBonuses() {
     localStorage.setItem('lastClaimTime', '0');
     updateBonusButtons();
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    initializeBonusSystem();
-    
-    const lastResetDate = localStorage.getItem('lastResetDate');
-    const currentDate = new Date().toDateString();
-    if (lastResetDate !== currentDate) {
-        resetBonuses();
-        localStorage.setItem('lastResetDate', currentDate);
-    }
-});
-
-setInterval(updateBonusButtons, 1000);
-
-function initializeTasks() {
-    console.log('Инициализация задач');
-    
-    ['task1', 'task2', 'task3', 'task4'].forEach(taskId => {
-        const isCompleted = localStorage.getItem(`${taskId}Completed`) === 'true';
-        const taskElement = document.querySelector(`#${taskId}`);
-        const circle = document.querySelector(`#${taskId} .task-circle`);
-        
-        if (taskElement && isCompleted) {
-            taskElement.classList.add('completed');
-            if (circle) {
-                circle.classList.add('completed-circle');
-            }
-            const button = document.getElementById(`${taskId}Button`);
-            if (button) {
-                button.disabled = true;
-            }
-        }
-    });
-}
-
-function disableTaskButton(taskId) {
-    const taskElement = document.querySelector(`#${taskId}`);
-    const button = document.getElementById(`${taskId}Button`);
-    const circle = document.querySelector(`#${taskId} .task-circle`);
-    
-    if (taskElement) {
-        taskElement.classList.add('completed');
-    }
-    
-    if (button) {
-        button.disabled = true;
-    }
-    
-    if (circle) {
-        circle.classList.add('completed-circle');
-    }
-    
-    localStorage.setItem(`${taskId}Completed`, 'true');
-}
-
-function enableTaskButton(taskId) {
-    const button = document.getElementById(`${taskId}Button`);
-    if (button) {
-        button.disabled = false;
-        button.parentElement.classList.remove('completed');
-        localStorage.removeItem(`${taskId}Style`);
-    }
-}
-
-function handleTask1Click() {
-    console.log('Task 1 clicked');
-    
-    if (localStorage.getItem('task1Completed') === 'true') {
-        alert('Вы уже выолнили это задание!');
-        return;
-    }
-    
-    window.open('https://t.me/litwin_community', '_blank');
-
-    let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
-    currentBalance += 1000;
-    localStorage.setItem('balance', currentBalance.toString());
-
-    localStorage.setItem('task1Completed', 'true');
-    console.log('Задание отмечено как выполненное');
-
-    const task1Button = document.getElementById('task1Button');
-    if (task1Button) {
-        disableTaskButton('task1');
-    }
-    window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
-    
-    console.log('New balance:', currentBalance);
-}
-
-function handleTask2Click() {
-    console.log('Task 2 clicked');
-    
-    if (localStorage.getItem('task2Completed') === 'true') {
-        alert('Вы уже выполнили это задание!');
-        return;
-    }
-    
-    window.open('https://t.me/LITWIN_TAP_BOT', '_blank');
-
-    let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
-    currentBalance += 1000;
-    localStorage.setItem('balance', currentBalance.toString());
-
-    localStorage.setItem('task2Completed', 'true');
-    console.log('Задание отмечено как выполненное');
-
-    const task2Button = document.getElementById('task2Button');
-    if (task2Button) {
-        disableTaskButton('task2');
-    }
-
-    window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
-    
-    console.log('New balance:', currentBalance);
-}
-
-function handleTask3Click() {
-    const currentLevel = parseInt(localStorage.getItem('currentLevel')) || 1;
-    const task3Completed = localStorage.getItem('task3Completed');
-    
-    if (!task3Completed && currentLevel >= 2) {
-        const reward = 1000;
-        const currentBalance = parseInt(localStorage.getItem('balance')) || 0;
-        localStorage.setItem('balance', (currentBalance + reward).toString());
-        localStorage.setItem('task3Completed', 'true');
-        
-        window.postMessage({ type: 'updateBalance', balance: currentBalance + reward }, '*');
-        
-        disableTaskButton('task3');
-        
-        alert('Поздравляем! Вы получили награду за первое разбитое яйцо!');
-    } else if (task3Completed) {
-        alert('Вы уже выполнили это задание!');
-    } else {
-        alert('Сначала нужно полностью разбить яйцо!');
-    }
-}
-
-function handleTask4Click() {
-    console.log('Task 4 clicked');
-    
-    const isTask4Completed = localStorage.getItem('task4Completed') === 'true';
-    
-    if (isTask4Completed) {
-        alert('Вы уже выполнили это задание!');
-        return;
-    }
-    
-    const invitedFriends = parseInt(localStorage.getItem('invitedFriends')) || 0;
-    console.log('Количество приглашенных друзей:', invitedFriends);
-    
-    if (invitedFriends > 0) {
-        let currentBalance = parseInt(localStorage.getItem('balance')) || 0;
-        currentBalance += 2000;
-        localStorage.setItem('balance', currentBalance.toString());
-
-        localStorage.setItem('task4Completed', 'true');
-        console.log('Задание риглашения друга отмечено как ыполненное');
-
-        const task4Button = document.getElementById('task4Button');
-        if (task4Button) {
-            disableTaskButton('task4');
-        }
-
-        window.parent.postMessage({ type: 'updateBalance', balance: currentBalance }, '*');
-        
-        alert('Поздравляем! Вы получили награду за приглашение друга!');
-    } else {
-        alert('Сначала пригласите друга!');
-    }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM загружен');
-    
-    initializeTasks();
-    
-    const task1Button = document.getElementById('task1Button');
-    if (task1Button) {
-        task1Button.addEventListener('click', handleTask1Click);
-    }
-    
-    const task2Button = document.getElementById('task2Button');
-    if (task2Button) {
-        task2Button.addEventListener('click', handleTask2Click);
-    }
-    
-    const task3Button = document.getElementById('task3Button');
-    if (task3Button) {
-        task3Button.addEventListener('click', handleTask3Click);
-    }
-    
-    const task4Button = document.getElementById('task4Button');
-    if (task4Button) {
-        task4Button.addEventListener('click', handleTask4Click);
-    }
-});
