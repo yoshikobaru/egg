@@ -745,7 +745,7 @@ body {
     position: absolute;
     width: 350px; /* Увеличено с 250px до 375px (250 * 1.5) */
     height: 500px; /* Увеличено с 360px до 540px (360 * 1.5) */
-    top: 50px;
+    top: 25px;
     left: 50%;
     transform: translateX(-50%);
     object-fit: contain;
